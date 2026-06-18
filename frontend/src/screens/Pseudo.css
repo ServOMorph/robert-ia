@@ -1,0 +1,49 @@
+.pseudo-screen {
+  background: linear-gradient(135deg, var(--color-bg-alt) 0%, var(--color-primary-alpha) 100%);
+}
+
+.pseudo-card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.pseudo-title {
+  font-size: var(--text-2xl);
+  color: var(--color-dark);
+}
+
+.pseudo-hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: calc(-1 * var(--space-sm));
+}
+
+.pseudo-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.pseudo-input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border: 2px solid var(--color-bg-dark);
+  border-radius: var(--radius-xl);
+  font-family: var(--font-main);
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: border-color var(--transition-fast);
+}
+
+.pseudo-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.pseudo-input::placeholder {
+  color: var(--color-text-muted);
+}
