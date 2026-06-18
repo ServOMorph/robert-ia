@@ -9,7 +9,7 @@ Créée le : 2026-06-18
 - [ ] Mettre en place la structure de dossiers (backend, frontend, docs, context)
 - [ ] Appliquer le protocole vibecoding (start/close)
 - [ ] Configurer l'environnement de dev (Python + FastAPI + Ollama)
-- [ ] Polir le repo public (README, CONTRIBUTING, documentation structure)
+- [x] Polir le repo public (README, CONTRIBUTING, LICENSE, .gitignore)
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 

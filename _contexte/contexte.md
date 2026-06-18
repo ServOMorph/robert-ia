@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phase 1 (socle) en cours. Repo GitHub robert-ia créé (MIT). Cadrage complet réalisé : stack décidée, roadmap 4 phases créée. Prochaine étape : structure de dossiers + protocole vibecoding + environnement de dev.
+Phase 1 (socle) en cours. Repo GitHub public poli : README, CONTRIBUTING, LICENSE, .gitignore créés et commités (c4b2b3c). Roadmap 5 tâches P1 dont 2 terminées. Prochaines : structure de dossiers, protocole vibecoding, environnement de dev.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
