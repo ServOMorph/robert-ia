@@ -1,0 +1,42 @@
+[Unit]
+Description=Robert-IA - Interface IA conversationnelle locale
+After=network-online.target
+Wants=network-online.target
+
+# Attendre après que le système de fichiers soit prêt
+After=local-fs.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+# Répertoire de travail
+WorkingDirectory=/opt/robert-ia
+
+# Script de lancement
+ExecStart=/opt/robert-ia/scripts/start-kiosk.sh
+
+# Redémarrer en cas d'erreur
+Restart=on-failure
+RestartSec=10
+
+# Logs systemd
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=robert-ia
+
+# Environnement
+Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="HOME=/root"
+Environment="DISPLAY=:0"
+
+# Ressources
+CPUQuota=80%
+MemoryLimit=1G
+
+# Délai de timeout (pour laisser le temps à Ollama de charger)
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
