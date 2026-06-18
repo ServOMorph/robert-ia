@@ -5,7 +5,7 @@
 - [✓] Polir le repo public (README, CONTRIBUTING, LICENSE, .gitignore) — 2026-06-18
 - [✓] Mettre en place la structure de dossiers (backend, frontend, docs, context) — 2026-06-18
 - [✓] Appliquer le protocole vibecoding (start/close) — 2026-06-18
-- [P1|ouvert] Configurer l'environnement de dev (Python + FastAPI + Ollama)
+- [✓] Configurer l'environnement de dev (Python + FastAPI + Ollama) — 2026-06-18
 
 ## Questions ouvertes
 
