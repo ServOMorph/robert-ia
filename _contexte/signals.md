@@ -1,11 +1,7 @@
 # Signals — robert-ia   (MAJ 2026-06-18)
 
 ## Actions ouvertes
-- [✓] Initialiser le repo GitHub public Robert-IA (MIT) — 2026-06-18
-- [✓] Polir le repo public (README, CONTRIBUTING, LICENSE, .gitignore) — 2026-06-18
-- [✓] Mettre en place la structure de dossiers (backend, frontend, docs, context) — 2026-06-18
-- [✓] Appliquer le protocole vibecoding (start/close) — 2026-06-18
-- [✓] Configurer l'environnement de dev (Python + FastAPI + Ollama) — 2026-06-18
+- [ ] Phase 3 — Déploiement air-gap (non commencée)
 
 ## Questions ouvertes
 
@@ -14,28 +10,17 @@
 ## Blocages
 
 ## Contexte chaud
+- Phase 1 et Phase 2 complètes (6/6 tâches).
+- 8 tests backend (pytest) + 14 tests frontend (vitest) — tous verts.
+- Checkpoint Phase 2 atteint : faire /compact avant Phase 3.
 
 ## Dernière session (2026-06-18)
 
-# Session du 2026-06-18
+### Actions complétées
+- [✓] Phase 1 complète (socle, env de dev, repo public)
+- [✓] Phase 2 complète : Welcome/RGPD, Pseudo, Chat, SQLite, interface verrouillée, tests
+- [✓] Tests auto : pytest 8/8 + vitest 14/14
+- [✓] Docs tests manuels : docs/TESTS_MANUELS.md
 
-## Décisions prises
-- Ajouter le polissage du repo public en Phase 1 (angle mort détecté, audience déjà présente)
-
-## Livrables produits ou modifiés
-- README.md : créé (présentation, stack, installation, roadmap)
-- CONTRIBUTING.md : créé (workflow, conventions, focus phase)
-- LICENSE : créé (MIT, 2026 ServOMorph)
-- .gitignore : créé (Python, Node, IDEs, OS)
-- roadmap_robert-ia.md : mis à jour (tâche polissage ajoutée + marquée [x])
-- _contexte/signals.md : mis à jour
-- Commit initial du repo : c4b2b3c
-
-## Hypothèses validées / invalidées
-- EN ATTENTE : protocole vibecoding (start/close) pas encore appliqué formellement
-
-## Prochaine étape exacte
-Structure de dossiers (backend/, frontend/, docs/, context/) puis protocole vibecoding, puis environnement de dev Python+FastAPI+Ollama.
-
-## Question bloquante pour la session suivante
-Aucune
+### Prochaine étape exacte
+Phase 3 — Déploiement air-gap. Attendre /compact + confirmation utilisateur.

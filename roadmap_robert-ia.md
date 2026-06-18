@@ -4,7 +4,7 @@ Créée le : 2026-06-18
 
 ---
 
-## Phase 1 — Socle projet [EN COURS]
+## Phase 1 — Socle projet [DONE]
 - [x] Initialiser le repo GitHub public (MIT)
 - [x] Mettre en place la structure de dossiers (backend, frontend, docs, context)
 - [x] Appliquer le protocole vibecoding (start/close)
@@ -15,13 +15,13 @@ Créée le : 2026-06-18
 
 ---
 
-## Phase 2 — Interface et chat [TODO]
-- [ ] Développer l'écran d'accueil + consentement RGPD
-- [ ] Saisie du pseudo (session anonyme)
-- [ ] Interface de chat (appel Ollama via FastAPI)
-- [ ] Historique de session (SQLite)
-- [ ] Interface verrouillée (aucune config utilisateur)
-- [ ] Tests automatiques + documentation tests manuels
+## Phase 2 — Interface et chat [DONE]
+- [x] Développer l'écran d'accueil + consentement RGPD
+- [x] Saisie du pseudo (session anonyme)
+- [x] Interface de chat (appel Ollama via FastAPI)
+- [x] Historique de session (SQLite)
+- [x] Interface verrouillée (aucune config utilisateur)
+- [x] Tests automatiques + documentation tests manuels
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 

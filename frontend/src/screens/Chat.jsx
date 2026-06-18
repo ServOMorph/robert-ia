@@ -18,7 +18,7 @@ export default function Chat({ pseudo, onEnd }) {
   const bottomRef = useRef(null)
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    bottomRef.current?.scrollIntoView?.({ behavior: 'smooth' })
   }, [messages])
 
   const sendMessage = async (e) => {
