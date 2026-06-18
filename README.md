@@ -42,10 +42,10 @@ Ollama doit tourner en local sur `http://localhost:11434`.
 
 ## Roadmap
 
-- **Phase 1 (en cours)** : Structure projet, environnement dev, repo public
-- **Phase 2** : Interface chat, historique sessions, intégration Ollama
-- **Phase 3** : Build déploiement air-gap, protocole export données
-- **Phase 4** : Pilote installation, formation, retours terrain
+- **Phase 1** ✅ : Structure projet, environnement dev, repo public
+- **Phase 2** ✅ : Interface chat (Welcome/RGPD, Pseudo, Chat), historique SQLite, streaming NDJSON
+- **Phase 3** ✅ : Build statique frontend, packaging air-gap, systemd kiosk, protocole export données
+- **Phase 4 (en cours)** : Pilote installation Bistrot de Nérigean, formation animateurs, retours terrain
 
 Voir [roadmap_robert-ia.md](roadmap_robert-ia.md) pour le détail.
 
