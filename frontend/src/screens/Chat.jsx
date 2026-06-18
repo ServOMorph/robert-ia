@@ -26,10 +26,11 @@ export default function Chat({ pseudo, onEnd }) {
     const text = input.trim()
     if (!text || loading) return
 
-    const userMsg = { role: 'user', content: text }
-    setMessages((prev) => [...prev, userMsg])
+    setMessages((prev) => [...prev, { role: 'user', content: text }])
     setInput('')
     setLoading(true)
+
+    setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
 
     try {
       const res = await fetch('/api/chat', {
@@ -38,16 +39,53 @@ export default function Chat({ pseudo, onEnd }) {
         body: JSON.stringify({ session_id: sessionId, pseudo, message: text }),
       })
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}))
-        throw new Error(err.detail || `Erreur ${res.status}`)
+        throw new Error(`Erreur ${res.status}`)
       }
-      const data = await res.json()
-      setMessages((prev) => [...prev, { role: 'assistant', content: data.reply }])
+
+      const reader = res.body.getReader()
+      const decoder = new TextDecoder()
+      let buffer = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        buffer += decoder.decode(value, { stream: true })
+        const lines = buffer.split('\n')
+        buffer = lines.pop()
+
+        for (const line of lines) {
+          if (!line.trim()) continue
+          const chunk = JSON.parse(line)
+          if (chunk.error) {
+            setMessages((prev) => {
+              const updated = [...prev]
+              updated[updated.length - 1] = { role: 'assistant', content: `Erreur : ${chunk.error}` }
+              return updated
+            })
+            return
+          }
+          if (chunk.token) {
+            setMessages((prev) => {
+              const updated = [...prev]
+              updated[updated.length - 1] = {
+                role: 'assistant',
+                content: updated[updated.length - 1].content + chunk.token,
+              }
+              return updated
+            })
+          }
+        }
+      }
     } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: `Désolé, une erreur s'est produite : ${err.message}` },
-      ])
+      setMessages((prev) => {
+        const updated = [...prev]
+        updated[updated.length - 1] = {
+          role: 'assistant',
+          content: `Désolé, une erreur s'est produite : ${err.message}`,
+        }
+        return updated
+      })
     } finally {
       setLoading(false)
     }
@@ -57,7 +95,10 @@ export default function Chat({ pseudo, onEnd }) {
     <div className="chat-screen">
       <header className="chat-header">
         <span className="chat-logo-initial">R</span>
-        <span className="chat-name">Robert</span>
+        <div className="chat-header-info">
+          <span className="chat-name">Robert</span>
+          <span className="chat-disclaimer">Robert peut faire des erreurs. Gardez votre esprit critique.</span>
+        </div>
         <button className="btn-secondary chat-end" onClick={onEnd} aria-label="Terminer la session">
           Terminer
         </button>

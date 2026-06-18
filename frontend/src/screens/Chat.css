@@ -33,12 +33,23 @@
   flex-shrink: 0;
 }
 
+.chat-header-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .chat-name {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-xl);
   color: var(--color-primary-dark);
-  flex: 1;
+}
+
+.chat-disclaimer {
+  font-size: var(--text-sm);
+  color: var(--color-primary-dark);
+  font-style: italic;
 }
 
 .chat-end {

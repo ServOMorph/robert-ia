@@ -8,7 +8,7 @@ export default function Welcome({ onConsent }) {
     <div className="screen welcome-screen">
       <div className="welcome-card card fade-in-up">
         <div className="welcome-logo">
-          <span className="logo-initial">R</span>
+          <img src="/logo_sereniatch.png" alt="SérénIATech" className="logo-img" />
         </div>
 
         <h1 className="welcome-title">Robert</h1>
@@ -45,6 +45,9 @@ export default function Welcome({ onConsent }) {
           Commencer
         </button>
       </div>
+      <p className="welcome-disclaimer">
+        Robert est une expérimentation. Cette version tourne sur un ordinateur de récupération, sans connexion internet. Les réponses peuvent être lentes ou imparfaites — c'est normal, c'est un début.
+      </p>
     </div>
   )
 }
