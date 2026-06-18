@@ -7,7 +7,7 @@ Créée le : 2026-06-18
 ## Phase 1 — Socle projet [EN COURS]
 - [x] Initialiser le repo GitHub public (MIT)
 - [x] Mettre en place la structure de dossiers (backend, frontend, docs, context)
-- [ ] Appliquer le protocole vibecoding (start/close)
+- [x] Appliquer le protocole vibecoding (start/close)
 - [ ] Configurer l'environnement de dev (Python + FastAPI + Ollama)
 - [x] Polir le repo public (README, CONTRIBUTING, LICENSE, .gitignore)
 
