@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phase 1 (socle) en cours. Repo GitHub public poli : README, CONTRIBUTING, LICENSE, .gitignore créés et commités (c4b2b3c). Roadmap 5 tâches P1 dont 2 terminées. Prochaines : structure de dossiers, protocole vibecoding, environnement de dev.
+Phase 1 et Phase 2 complètes (commits 793ab9d, d99e20b, 0d3f646). Frontend Vite+React opérationnel : 3 écrans (Welcome/RGPD, Pseudo, Chat), charte SéréniaTech. Backend FastAPI : POST /api/chat → Ollama gemma3:1b + historique SQLite. 8 tests pytest + 14 tests vitest verts. Prochaine étape : Phase 3 déploiement air-gap.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
@@ -23,3 +23,5 @@ Phase 1 (socle) en cours. Repo GitHub public poli : README, CONTRIBUTING, LICENS
 - 2026-06-18 : _contexte/ public dans le repo GitHub
 - 2026-06-18 : Backup code = GitHub uniquement (pas de ZIP Drive)
 - 2026-06-18 : Protocole d'export données air-gap (SQLite par disque dur) à développer en Phase 3
+- 2026-06-18 : Fonts Google exclues de l'UI (air-gap) — fallback système uniquement
+- 2026-06-18 : Navigation par machine d'état React (pas de router) — interface verrouillée par design
