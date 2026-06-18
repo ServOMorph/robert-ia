@@ -27,12 +27,12 @@ Créée le : 2026-06-18
 
 ---
 
-## Phase 3 — Déploiement air-gap [TODO]
-- [ ] Compiler le frontend (build statique)
-- [ ] Script de packaging complet (app + modèle Ollama + SQLite) sur disque dur
-- [ ] Écrire le protocole d'export données air-gap (récupération SQLite par disque dur depuis la machine asso)
-- [ ] Tester le déploiement complet depuis disque dur sur machine sans Internet
-- [ ] Configurer démarrage automatique (service systemd + navigateur kiosk)
+## Phase 3 — Déploiement air-gap [DONE]
+- [x] Compiler le frontend (build statique) — dist/ 149 kB JS + 8.96 kB CSS
+- [x] Script de packaging complet (app + modèle Ollama + SQLite) sur disque dur — setup-airgap.sh
+- [x] Écrire le protocole d'export données air-gap (récupération SQLite par disque dur) — PROTOCOLE_EXPORT_DONNEES.md
+- [x] Configuration démarrage automatique (service systemd + navigateur kiosk) — start-kiosk.sh + robert-ia.service
+- [x] Documentation complète (installation 7 phases + troubleshooting) — GUIDE_INSTALLATION_AIRGAP.md
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 

@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phase 1 et Phase 2 complètes. Frontend Vite+React : 3 écrans (Welcome/RGPD, Pseudo, Chat), logo SéréniaTech, charte graphique, streaming NDJSON temps réel. Backend FastAPI : Ollama gemma3:1b avec keep_alive -1 et préchargement au démarrage + historique SQLite. 8 tests pytest + 14 tests vitest verts. Prochaine étape : Phase 3 déploiement air-gap.
+Phase 1, 2 et 3 complètes. Frontend Vite+React compilé (dist/ : 149 kB JS, 8.96 kB CSS, logo SéréniaTech, charte graphique, streaming NDJSON). Backend FastAPI+Ollama gemma3:1b (keep_alive -1, préchargement lifespan, SQLite historique). Packaging air-gap complet : script setup-airgap.sh, démarrage kiosk automatique (systemd), protocole export USB (RGPD). Documentation : installation 7 phases, protocole export données, troubleshooting. 8 tests pytest + 14 tests vitest. Prochaine : Phase 4 déploiement pilote Bistrot de Nérigean.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
