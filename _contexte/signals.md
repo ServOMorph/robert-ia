@@ -3,7 +3,7 @@
 ## Actions ouvertes
 - [✓] Initialiser le repo GitHub public Robert-IA (MIT) — 2026-06-18
 - [✓] Polir le repo public (README, CONTRIBUTING, LICENSE, .gitignore) — 2026-06-18
-- [P1|ouvert] Mettre en place la structure de dossiers (backend, frontend, docs, context)
+- [✓] Mettre en place la structure de dossiers (backend, frontend, docs, context) — 2026-06-18
 - [P1|ouvert] Appliquer le protocole vibecoding (start/close)
 - [P1|ouvert] Configurer l'environnement de dev (Python + FastAPI + Ollama)
 
