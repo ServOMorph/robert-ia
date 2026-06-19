@@ -6,7 +6,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import httpx
 
-from database import init_db, save_message
+from database import init_db, save_message, get_history
 from prompt import SYSTEM_PROMPT
 
 
@@ -30,8 +30,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "gemma3:1b"
+OLLAMA_URL = "http://localhost:11434/api/chat"
+MODEL = "gemma3:4b"
+HISTORY_WINDOW = 8
+NUM_CTX = 2048
 
 
 class ChatRequest(BaseModel):
@@ -49,12 +51,15 @@ def health():
 async def chat(req: ChatRequest):
     save_message(req.session_id, req.pseudo, "user", req.message)
 
+    history = get_history(req.session_id, limit=HISTORY_WINDOW)
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + history
+
     payload = {
         "model": MODEL,
-        "system": SYSTEM_PROMPT,
-        "prompt": req.message,
+        "messages": messages,
         "stream": True,
         "keep_alive": -1,
+        "options": {"num_ctx": NUM_CTX},
     }
 
     async def stream():
@@ -63,13 +68,13 @@ async def chat(req: ChatRequest):
             async with httpx.AsyncClient(timeout=120.0) as client:
                 async with client.stream("POST", OLLAMA_URL, json=payload) as res:
                     if res.status_code != 200:
-                        yield json.dumps({"error": f"Erreur Ollama {res.status_code}"})
+                        yield json.dumps({"error": f"Erreur Ollama {res.status_code}"}) + "\n"
                         return
                     async for line in res.aiter_lines():
                         if not line:
                             continue
                         chunk = json.loads(line)
-                        token = chunk.get("response", "")
+                        token = chunk.get("message", {}).get("content", "")
                         if token:
                             full_reply.append(token)
                             yield json.dumps({"token": token}) + "\n"

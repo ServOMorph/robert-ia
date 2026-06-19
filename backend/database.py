@@ -34,3 +34,12 @@ def save_message(session_id: str, pseudo: str, role: str, content: str):
             (session_id, pseudo, role, content),
         )
         conn.commit()
+
+
+def get_history(session_id: str, limit: int = 8) -> list[dict]:
+    with get_connection() as conn:
+        rows = conn.execute(
+            "SELECT role, content FROM messages WHERE session_id = ? ORDER BY id DESC LIMIT ?",
+            (session_id, limit),
+        ).fetchall()
+    return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]

@@ -9,7 +9,7 @@ Déployer une IA accessible, autonome et confidentielle dans des environnements 
 ## Stack technique
 
 - **OS cible** : Ubuntu 24.04 LTS (XFCE)
-- **IA** : Ollama + gemma3:1b
+- **IA** : Ollama + gemma3:4b
 - **Backend** : Python + FastAPI
 - **Base de données** : SQLite
 - **Frontend** : React + Vite (build statique)
@@ -21,7 +21,7 @@ Déployer une IA accessible, autonome et confidentielle dans des environnements 
 ### Prérequis
 - Python 3.10+
 - Node.js 18+
-- Ollama (avec modèle gemma3:1b)
+- Ollama (avec modèle gemma3:4b)
 
 ### Setup
 
