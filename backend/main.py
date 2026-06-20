@@ -52,6 +52,18 @@ def health():
     return {"status": "ok"}
 
 
+@app.get("/api/ready")
+async def model_ready():
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            res = await client.get("http://localhost:11434/api/ps")
+            models = res.json().get("models", [])
+            loaded = any(m.get("name", "").startswith(MODEL) for m in models)
+            return {"ready": loaded}
+    except Exception:
+        return {"ready": False}
+
+
 @app.post("/api/chat")
 async def chat(req: ChatRequest):
     save_message(req.session_id, req.pseudo, "user", req.message)

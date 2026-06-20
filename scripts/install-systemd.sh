@@ -22,10 +22,10 @@ cp "$CONFIG_DIR/robert-ia.service" /etc/systemd/system/
 chmod 644 /etc/systemd/system/robert-ia.service
 echo "   ✅ /etc/systemd/system/robert-ia.service"
 
-# 2. Rendre le script exécutable
+# 2. Rendre les scripts exécutables
 echo "🔓 Configuration des permissions..."
+chmod +x "$APP_DIR/scripts/start-backend.sh"
 chmod +x "$APP_DIR/scripts/start-kiosk.sh"
-chmod +x "$APP_DIR/scripts/start.sh"
 
 # 3. Créer les répertoires nécessaires et fixer les permissions
 mkdir -p "$APP_DIR/logs"
@@ -45,7 +45,16 @@ if ! [ -d "$APP_DIR/.venv" ]; then
     echo "   ✅ Dépendances installées"
 fi
 
-# 5. Recharger systemd
+# 5. Installer l'autostart kiosk pour XFCE
+echo "🖥️  Installation autostart kiosk..."
+AUTOSTART_DIR="/home/robert-ia/.config/autostart"
+mkdir -p "$AUTOSTART_DIR"
+cp "$CONFIG_DIR/robert-ia-kiosk.desktop" "$AUTOSTART_DIR/"
+chown -R robert-ia:robert-ia "$AUTOSTART_DIR"
+chmod 644 "$AUTOSTART_DIR/robert-ia-kiosk.desktop"
+echo "   ✅ $AUTOSTART_DIR/robert-ia-kiosk.desktop"
+
+# 6. Recharger systemd
 echo "♻️  Rechargement de systemd..."
 systemctl daemon-reload
 echo "   ✅ systemd rechargé"

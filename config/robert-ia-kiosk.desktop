@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Robert-IA Kiosk
+Exec=/opt/robert-ia/scripts/start-kiosk.sh
+X-GNOME-Autostart-enabled=true
+Hidden=false
+NoDisplay=false
