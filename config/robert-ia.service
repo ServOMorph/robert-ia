@@ -8,8 +8,8 @@ After=local-fs.target
 
 [Service]
 Type=simple
-User=root
-Group=root
+User=robert-ia
+Group=robert-ia
 
 # Répertoire de travail
 WorkingDirectory=/opt/robert-ia
@@ -28,12 +28,13 @@ SyslogIdentifier=robert-ia
 
 # Environnement
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-Environment="HOME=/root"
+Environment="HOME=/home/robert-ia"
 Environment="DISPLAY=:0"
+Environment="XAUTHORITY=/home/robert-ia/.Xauthority"
 
 # Ressources
 CPUQuota=80%
-MemoryLimit=1G
+MemoryLimit=3G
 
 # Délai de timeout (pour laisser le temps à Ollama de charger)
 TimeoutStartSec=120

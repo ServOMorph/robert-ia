@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Mémoire conversationnelle intra-session optimisée (session 6) : tête épinglée HEAD_K=4 + fenêtre glissante 16 messages, num_ctx 4096, system prompt enrichi (règles mémoire + honnêteté). Score test mémoire : 18/20 (vs 8/20 en session 5). 2 échecs résiduels sur chiffres précis (budget 200€ — hallucination modèle). Test automatique disponible : `python backend/test_manuels/run_test_memoire.py`. Backend actif sur port 8001 (port 8000 en état fantôme Windows). Phase 4 déploiement pilote Bistrot de Nérigean conditionnée à : (1) décision sur les 2 échecs restants, (2) validation RAM gemma3:4b sur i3-4130 4 Go.
+Phases 1–3 complètes. Phase 4 en cours : déploiement USB testé sur machine cible (i3-4130, 4 Go RAM, Ubuntu 24.04) — chat fonctionnel, gemma3:4b validé (swap ~200 Mo). FastAPI sert le frontend statique (port 8001). Protocole USB validé. Démarrage automatique (systemd) partiellement validé : backend OK, Firefox kiosk non retesté après corrections (User=robert-ia, XAUTHORITY). Prochaine étape : repackager et valider kiosk au reboot.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
@@ -29,3 +29,4 @@ Phases 1–3 complètes. Mémoire conversationnelle intra-session optimisée (se
 - 2026-06-19 : Mémoire conversationnelle intra-session — /api/chat, fenêtre 8 messages, num_ctx 2048
 - 2026-06-19 : gemma3:1b non viable (mémoire contextuelle insuffisante) → pivot gemma3:4b (RAM à valider)
 - 2026-06-20 : Architecture mémoire — tête épinglée K=4 + fenêtre glissante 16 + system prompt enrichi → 18/20
+- 2026-06-20 : FastAPI sert le frontend statique (StaticFiles) — file:// abandonné, tout sur port 8001

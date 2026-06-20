@@ -4,9 +4,9 @@
 
 ### Matériel
 - **CPU** : i3-4130 ou équivalent (Quad-core 3 GHz)
-- **RAM** : 4 Go minimum (+ 2-3 Go pour Ollama gemma3:1b)
+- **RAM** : 4 Go minimum (+ 2-3 Go pour Ollama gemma3:4b)
 - **Disque** : 120 Go SSD recommandé
-- **GPU** : Non requis (CPU suffisant pour gemma3:1b)
+- **GPU** : Non requis (CPU suffisant pour gemma3:4b)
 
 ### Système d'exploitation
 - **Ubuntu 24.04.1 LTS** (XFCE Desktop)
@@ -14,7 +14,7 @@
 - Connexion Internet (pour phase d'installation seulement)
 
 ### Logiciels
-- Ollama (avec modèle gemma3:1b pré-téléchargé)
+- Ollama (avec modèle gemma3:4b pré-téléchargé)
 - Python 3.11+
 - Firefox ou Chromium (navigateur kiosk)
 
@@ -62,15 +62,15 @@ ollama serve &
 sleep 3
 
 # Télécharger le modèle (400-500 MB)
-ollama pull gemma3:1b
+ollama pull gemma3:4b
 
 # Vérifier
-ollama list | grep gemma3:1b
+ollama list | grep gemma3:4b
 ```
 
 **Résultat attendu :**
 ```
-gemma3:1b      0acb3e0f30e7   1.0 GB
+gemma3:4b      0acb3e0f30e7   1.0 GB
 ```
 
 ### 1.5 Vérifier la disponibilité d'Ollama
@@ -306,7 +306,7 @@ journalctl -u robert-ia -n 100
 
 # Tester le backend directement
 cd /opt/robert-ia/app/backend
-python -m uvicorn main:app --host 0.0.0.0 --port 8000 --log-level debug
+python -m uvicorn main:app --host 0.0.0.0 --port 8001 --log-level debug
 ```
 
 ### Problème: BD corrompue
@@ -336,7 +336,7 @@ sudo kill -9 <PID>
 
 - [ ] Ubuntu 24.04.1 LTS installé
 - [ ] Dépendances système installées (Python, Firefox, etc.)
-- [ ] Ollama installé et modèle `gemma3:1b` pré-téléchargé
+- [ ] Ollama installé et modèle `gemma3:4b` pré-téléchargé
 - [ ] Application copiée dans `/opt/robert-ia/`
 - [ ] Dépendances Python installées (`.venv`)
 - [ ] Service systemd installé

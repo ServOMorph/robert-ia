@@ -27,9 +27,13 @@ echo "🔓 Configuration des permissions..."
 chmod +x "$APP_DIR/scripts/start-kiosk.sh"
 chmod +x "$APP_DIR/scripts/start.sh"
 
-# 3. Créer le répertoire de logs
+# 3. Créer les répertoires nécessaires et fixer les permissions
 mkdir -p "$APP_DIR/logs"
+mkdir -p "$APP_DIR/app/backend/data"
+chown -R robert-ia:robert-ia "$APP_DIR/logs"
+chown -R robert-ia:robert-ia "$APP_DIR/app/backend/data"
 chmod 755 "$APP_DIR/logs"
+chmod 755 "$APP_DIR/app/backend/data"
 
 # 4. Créer l'environnement virtuel Python (si nécessaire)
 if ! [ -d "$APP_DIR/.venv" ]; then

@@ -1,58 +1,48 @@
 # Signals — robert-ia   (MAJ 2026-06-20)
 
 ## Actions ouvertes
-- [P1] Phase 4 — Déploiement pilote (non commencée)
-- [P1] Valider gemma3:4b sur machine cible (RAM 4 Go — risque swap/crash)
+- [P1] Repackager USB et valider démarrage automatique complet (backend + Firefox kiosk) sur PC Linux
+- [P1] Phase 4 — Déploiement pilote Bistrot de Nérigean (en cours)
 - [P2] Corriger hallucination des chiffres précis (budget 200€ → modèle invente 500€, 5000€)
 
 ## Questions ouvertes
-- gemma3:4b tient-il dans 4 Go RAM sur i3-4130 avec Ollama keep_alive -1 ?
-- Hallucination chiffres : option system prompt, changer de modèle, ou accepter la limite ?
+- Firefox kiosk se lance-t-il automatiquement au démarrage avec User=robert-ia + XAUTHORITY ?
+- Hallucination chiffres : accepter 18/20 ou corriger avant déploiement pilote ?
 
 ## Échéances
 
 ## Blocages
 
 ## Contexte chaud
-- Session 6 (2026-06-20) : mémoire conversationnelle améliorée — score 18/20 (vs 8/20 avant)
-- Backend tourne sur port 8001 (port 8000 en état fantôme Windows — socket bloqué sans process)
-- Test automatique opérationnel : `python backend/test_manuels/run_test_memoire.py`
+- Session 7 (2026-06-20) : déploiement USB testé sur PC Linux (i3-4130, 4 Go RAM) — chat fonctionnel
+- gemma3:4b validé sur machine cible : swap léger (~200 Mo), fonctionnel
+- Backend sert maintenant le frontend via FastAPI (StaticFiles) — file:// abandonné
+- Port 8001 confirmé en production
 
-## Dernière session (2026-06-20 — session 6)
+## Dernière session (2026-06-20 — session 7)
 
 ### Décisions prises
-- HISTORY_WINDOW : 8 → 16 messages
-- NUM_CTX : 2048 → 4096 tokens
-- Architecture mémoire : fenêtre glissante seule → tête épinglée (HEAD_K=4) + fenêtre glissante (16)
-- System prompt enrichi : règles mémoire + interdiction hallucination + honnêteté inter-session
+- FastAPI sert le frontend statique (StaticFiles + routes) — plus de `file://` nécessaire
+- Port 8001 confirmé en production
+- Service systemd : `User=robert-ia` (pas root), `MemoryLimit=3G`, `XAUTHORITY` ajouté
+- Protocole déploiement USB validé en conditions réelles
 
 ### Livrables produits ou modifiés
-- `backend/main.py` : HEAD_K=4, HISTORY_WINDOW=16, NUM_CTX=4096, logique head+tail dedupliquée
-- `backend/database.py` : ajout `get_head(session_id, k=4)`, `get_history` retourne maintenant l'id pour déduplication
-- `backend/prompt.py` : system prompt enrichi (4 règles mémoire + honnêteté)
-- `backend/test_manuels/run_test_memoire.py` : script de test automatique créé (20 prompts, évaluation par critères, score/20)
+- `backend/main.py` : service frontend statique via FastAPI (StaticFiles + catch-all)
+- `scripts/start-kiosk.sh` : port 8001, gemma3:4b, URL Firefox→`http://localhost:8001`
+- `config/robert-ia.service` : User/Group robert-ia, HOME, XAUTHORITY, MemoryLimit 3G
+- `scripts/setup-airgap.sh` : `app/backend/data/` + `logs/` créés au packaging
+- `scripts/install-systemd.sh` : permissions `logs/` et `app/backend/data/` fixées pour robert-ia
+- `docs/GUIDE_INSTALLATION_AIRGAP.md` : gemma3:4b, port 8001
 
-### Résultats des tests
-| Config | Score |
-|--------|-------|
-| gemma3:4b, fenêtre=8, num_ctx=2048, prompt minimal | 8/20 |
-| gemma3:4b, fenêtre=16, num_ctx=4096, prompt minimal | 9/20 |
-| gemma3:4b, fenêtre=16 + tête épinglée K=4, prompt enrichi | 18/20 |
-
-### Analyse des 2 échecs restants (prompts 13 et 14)
-- **Prompt 13** ("c'est quoi la contrainte budgétaire exacte ?") : modèle invente un chiffre (500€, 5000€) au lieu de lire le 200€ du contexte
-- **Prompt 14** (récapitulatif global) : budget absent du résumé car mal mémorisé → critère raté
-- **Cause** : gemma3:4b hallucine les chiffres précis quand la question est indirecte ("comme je te l'avais dit..."). Faiblesse connue des petits modèles.
-
-### Options pour corriger les 2 échecs (à évaluer session suivante)
-1. **System prompt** — ajouter : "Pour les chiffres, cite toujours le nombre exact tel qu'il a été donné. Ne génère jamais un chiffre de mémoire." → tenter en premier, coût nul
-2. **Accepter la limite** — 18/20 suffisant pour le Bistrot de Nérigean (utilisateurs non-testeurs), passer directement à Phase 4
-3. **Changer de modèle** — phi3:mini (~2,3 Go, viables sur 4 Go) ou llama3.2:3b potentiellement plus fiables sur chiffres ; nécessite nouveau cycle de tests complets
+### Hypothèses validées / invalidées
+- VALIDE : gemma3:4b tient sur 4 Go RAM (i3-4130) — swap ~200 Mo, fonctionnel
+- VALIDE : protocole déploiement USB fonctionne (testé en conditions réelles)
+- VALIDE : interface Robert-IA fonctionne sur PC Linux (chat complet opérationnel)
+- EN ATTENTE : Firefox kiosk auto via systemd — corrigé dans les fichiers, non retesté
 
 ### Prochaine étape exacte
-1. Décider si on corrige le score (option 1 ou 3) ou on accepte 18/20 et passe en Phase 4
-2. Si option 1 : tester le system prompt enrichi et relancer `run_test_memoire.py`
-3. Si Phase 4 : valider RAM gemma3:4b sur i3-4130, puis installation pilote Bistrot de Nérigean
+Repackager via `setup-airgap.sh`, redéployer sur le PC Linux via USB, redémarrer la machine et valider le démarrage automatique complet (backend + Firefox kiosk).
 
 ### Question bloquante pour la session suivante
-18/20 suffit-il pour le déploiement pilote, ou veut-on corriger les chiffres d'abord ?
+Firefox kiosk se lance-t-il automatiquement au démarrage avec les corrections `User=robert-ia` + `XAUTHORITY` ?

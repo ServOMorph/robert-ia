@@ -46,11 +46,11 @@ STARTUP_LOG="$LOG_DIR/startup.log"
         sleep 1
     done
 
-    # 4. Vérifier le modèle gemma3:1b
+    # 4. Vérifier le modèle gemma3:4b
     echo "📦 Vérification du modèle..."
-    if ! curl -s http://localhost:11434/api/tags | grep -q "gemma3:1b"; then
-        echo "⚠️  AVERTISSEMENT : Modèle gemma3:1b non trouvé"
-        echo "   À pré-charger avant déploiement : ollama pull gemma3:1b"
+    if ! curl -s http://localhost:11434/api/tags | grep -q "gemma3:4b"; then
+        echo "⚠️  AVERTISSEMENT : Modèle gemma3:4b non trouvé"
+        echo "   À pré-charger avant déploiement : ollama pull gemma3:4b"
     fi
 
     # 5. Activer l'environnement virtuel Python (si utilisé)
@@ -62,7 +62,7 @@ STARTUP_LOG="$LOG_DIR/startup.log"
     # 6. Démarrer le backend FastAPI
     echo "🔙 Démarrage du backend..."
     cd "$BACKEND_DIR"
-    python -m uvicorn main:app --host 0.0.0.0 --port 8000 --log-level warning >> "$BACKEND_LOG" 2>&1 &
+    python -m uvicorn main:app --host 0.0.0.0 --port 8001 --log-level warning >> "$BACKEND_LOG" 2>&1 &
     BACKEND_PID=$!
     echo "   PID: $BACKEND_PID"
     sleep 2
@@ -77,7 +77,7 @@ STARTUP_LOG="$LOG_DIR/startup.log"
     # 7. Vérifier que le backend répond
     echo "⏳ Attente du backend..."
     for i in {1..10}; do
-        if curl -s http://localhost:8000/health &>/dev/null; then
+        if curl -s http://localhost:8001/health &>/dev/null; then
             echo "✅ Backend prêt"
             break
         fi
@@ -95,7 +95,7 @@ STARTUP_LOG="$LOG_DIR/startup.log"
     firefox \
         --new-instance \
         --kiosk \
-        "file://$FRONTEND_DIR/index.html" \
+        "http://localhost:8001" \
         --no-remote \
         >> "$LOG_DIR/browser.log" 2>&1 &
     BROWSER_PID=$!
@@ -103,7 +103,7 @@ STARTUP_LOG="$LOG_DIR/startup.log"
 
     echo ""
     echo "✅ Robert-IA démarré avec succès"
-    echo "   Backend: http://localhost:8000"
+    echo "   Backend: http://localhost:8001"
     echo "   Frontend: kiosk fullscreen"
     echo "   Logs: $LOG_DIR/"
     echo ""

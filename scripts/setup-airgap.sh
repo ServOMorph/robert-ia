@@ -14,10 +14,11 @@ echo "   Destination: $APP_DIR"
 # 1. Créer la structure de répertoires
 echo "🗂️  Création de la structure..."
 mkdir -p "$APP_DIR/app/backend"
+mkdir -p "$APP_DIR/app/backend/data"
 mkdir -p "$APP_DIR/app/frontend/dist"
-mkdir -p "$APP_DIR/data"
 mkdir -p "$APP_DIR/config"
 mkdir -p "$APP_DIR/scripts"
+mkdir -p "$APP_DIR/logs"
 
 # 2. Copier le frontend compilé
 echo "📄 Copie du frontend compilé..."
@@ -56,7 +57,7 @@ fi
 
 # 2. Démarrer le backend FastAPI
 cd "$BACKEND_DIR"
-python -m uvicorn main:app --host 0.0.0.0 --port 8000
+python -m uvicorn main:app --host 0.0.0.0 --port 8001
 
 EOF
 
@@ -87,7 +88,7 @@ robert-ia/
 
 ## Prérequis
 - Ubuntu 24.04.1 LTS
-- Ollama installé avec modèle `gemma3:1b` pré-téléchargé
+- Ollama installé avec modèle `gemma3:4b` pré-téléchargé
 - Python 3.11+
 
 ## Installation
@@ -134,7 +135,7 @@ echo "  ├── config/       (systemd)"
 echo "  └── scripts/      (lancement)"
 echo ""
 echo "Prochaines étapes:"
-echo "  1. Pré-télécharger le modèle Ollama: ollama pull gemma3:1b"
+echo "  1. Pré-télécharger le modèle Ollama: ollama pull gemma3:4b"
 echo "  2. Copier le dossier sur disque dur"
 echo "  3. Lancer sur machine air-gap: ./scripts/start.sh"
 echo ""

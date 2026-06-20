@@ -1,8 +1,10 @@
 import json
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import httpx
 
@@ -25,10 +27,12 @@ app = FastAPI(title="Robert-IA", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:8001", "http://127.0.0.1:8001"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL = "gemma3:4b"
@@ -93,3 +97,20 @@ async def chat(req: ChatRequest):
         save_message(req.session_id, req.pseudo, "assistant", "".join(full_reply))
 
     return StreamingResponse(stream(), media_type="application/x-ndjson")
+
+
+@app.get("/")
+def serve_frontend():
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+
+@app.get("/{path:path}")
+def serve_static(path: str):
+    file_path = os.path.join(FRONTEND_DIR, path)
+    if os.path.isfile(file_path):
+        return FileResponse(file_path)
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+
+if os.path.isdir(FRONTEND_DIR):
+    app.mount("/assets", StaticFiles(directory=os.path.join(FRONTEND_DIR, "assets")), name="assets")
