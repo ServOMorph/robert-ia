@@ -6,7 +6,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import httpx
 
-from database import init_db, save_message, get_history
+from database import init_db, save_message, get_head, get_history
 from prompt import SYSTEM_PROMPT
 
 
@@ -32,8 +32,9 @@ app.add_middleware(
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL = "gemma3:4b"
-HISTORY_WINDOW = 8
-NUM_CTX = 2048
+HEAD_K = 4
+HISTORY_WINDOW = 16
+NUM_CTX = 4096
 
 
 class ChatRequest(BaseModel):
@@ -51,8 +52,13 @@ def health():
 async def chat(req: ChatRequest):
     save_message(req.session_id, req.pseudo, "user", req.message)
 
-    history = get_history(req.session_id, limit=HISTORY_WINDOW)
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + history
+    head = get_head(req.session_id, k=HEAD_K)
+    tail = get_history(req.session_id, limit=HISTORY_WINDOW)
+    head_ids = {r["id"] for r in head}
+    combined = head + [r for r in tail if r["id"] not in head_ids]
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}] + [
+        {"role": r["role"], "content": r["content"]} for r in combined
+    ]
 
     payload = {
         "model": MODEL,

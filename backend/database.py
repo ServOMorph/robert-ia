@@ -36,10 +36,19 @@ def save_message(session_id: str, pseudo: str, role: str, content: str):
         conn.commit()
 
 
+def get_head(session_id: str, k: int = 4) -> list[dict]:
+    with get_connection() as conn:
+        rows = conn.execute(
+            "SELECT id, role, content FROM messages WHERE session_id = ? ORDER BY id ASC LIMIT ?",
+            (session_id, k),
+        ).fetchall()
+    return [{"id": r["id"], "role": r["role"], "content": r["content"]} for r in rows]
+
+
 def get_history(session_id: str, limit: int = 8) -> list[dict]:
     with get_connection() as conn:
         rows = conn.execute(
-            "SELECT role, content FROM messages WHERE session_id = ? ORDER BY id DESC LIMIT ?",
+            "SELECT id, role, content FROM messages WHERE session_id = ? ORDER BY id DESC LIMIT ?",
             (session_id, limit),
         ).fetchall()
-    return [{"role": r["role"], "content": r["content"]} for r in reversed(rows)]
+    return [{"id": r["id"], "role": r["role"], "content": r["content"]} for r in reversed(rows)]
