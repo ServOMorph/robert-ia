@@ -8,7 +8,7 @@ Déployer une IA accessible, autonome et confidentielle dans des environnements 
 
 ## Stack technique
 
-- **OS cible** : Ubuntu 24.04 LTS (XFCE)
+- **OS cible** : Ubuntu 24.04 LTS (GNOME Shell / Wayland)
 - **IA** : Ollama + gemma3:4b
 - **Backend** : Python + FastAPI
 - **Base de données** : SQLite
@@ -60,3 +60,4 @@ MIT — voir [LICENSE](LICENSE)
 ## Contact
 
 [servomorph14@gmail.com](mailto:servomorph14@gmail.com)
+e 

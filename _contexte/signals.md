@@ -2,11 +2,20 @@
 
 ## Actions ouvertes
 - [P1] Phase 4 — Déploiement pilote Bistrot de Nérigean (en cours)
-- [P2] Corriger hallucination des chiffres précis (budget 200€ → modèle invente 500€, 5000€)
+  fait quand: installation terminée sur PC association + animateurs formés
+  réf: roadmap_robert-ia.md (Phase 4), _contexte/contexte.md
+- [P2] AVANT DÉPLOIEMENT : créer protocole test d'analyse de conversation (récupération conversations sur disque dur pour analyse Windows)
+  fait quand: protocole documenté + export SQLite/CSV testable depuis PC Windows
+  réf: _docs/PROTOCOLE_EXPORT_DONNEES.md (existant), à adapter pour analyse
+- [P2b] AVANT DÉPLOIEMENT : feature affichage eau économisée (Robert IA locale vs IA cloud) — mise en lumière aspect éco-responsable
+  fait quand: compteur eau visible dans l'UI (ex: fin de session ou écran accueil)
+  réf: frontend/src/, à préciser (calcul liters/request cloud vs local)
 - [P3] AVANT DÉPLOIEMENT SITE : retirer l'accès root SSH du PC Linux (accès root accordé temporairement pour la phase dev)
+  fait quand: `PermitRootLogin no` dans sshd_config + service redémarré + accès root vérifié refusé
+  réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519)
 
 ## Questions ouvertes
-- Hallucination chiffres : accepter 18/20 ou corriger avant déploiement pilote ?
+_(aucune)_
 
 ## Échéances
 
@@ -21,24 +30,21 @@
 - Dev Windows : `python dev.py` + `?screen=loading` pour isoler l'écran de chargement
 - Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, non corrigeable en software — gérée par formation utilisateur
 
-## Dernière session (2026-06-21 — session 11)
+## Dernière session (2026-06-21 — session 12)
 
 ### Décisions prises
-- Warmup via `/api/generate` + `num_predict: 0` au lieu de `/api/chat` avec `prompt: ""` (requête malformée)
-- `/api/ready` reste basé sur `/api/ps` (flag interne abandonné — latence génération incompressible sur ce CPU)
-- Lenteur du premier prompt gérée par formation utilisateur, pas par optimisation logicielle
+- Hallucination chiffres (18/20) acceptée : pas de correction avant déploiement pilote
+- Deux features ajoutées à Phase 4 avant déploiement : protocole analyse conversations + affichage eau économisée
 
 ### Livrables produits ou modifiés
-- `backend/main.py` : lifespan corrigé (`/api/generate`, `num_predict: 0`) — déployé sur PC Linux
+- `_contexte/signals.md` : P2 fermée (hallucination acceptée), nouvelles actions P2/P2b ajoutées
 
 ### Hypothèses validées / invalidées
-- INVALIDE : warmup avec premier token stream = signal "prêt" → gemma3:4b met ~5 min pour le 1er token sur i3-4130
-- INVALIDE : lifespan préchargeait le modèle → requête malformée (`prompt` sur `/api/chat`), avalée silencieusement
-- VALIDE : `/api/generate` + `num_predict: 0` charge le modèle en RAM rapidement, `/api/ready` retourne `true` correctement
-- VALIDE : lenteur 1er prompt = prefill system prompt + génération CPU, pas un bug logiciel
+- EN ATTENTE : protocole analyse conversations (à créer)
+- EN ATTENTE : feature eau économisée (à implémenter)
 
 ### Prochaine étape exacte
-Phase 4 : installation sur le PC de l'association (Bistrot de Nérigean), formation animateurs avec explication de la lenteur du premier prompt.
+Implémenter les deux features avant déploiement : (1) protocole export conversations disque dur → analyse Windows, (2) affichage eau économisée dans l'UI.
 
 ### Question bloquante pour la session suivante
 Aucune
