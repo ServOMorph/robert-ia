@@ -11,13 +11,24 @@ import httpx
 from database import init_db, save_message, get_head, get_history
 from prompt import SYSTEM_PROMPT
 
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+
+OLLAMA_URL = "http://localhost:11434/api/chat"
+MODEL = "gemma3:4b"
+HEAD_K = 4
+HISTORY_WINDOW = 16
+NUM_CTX = 4096
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
     try:
-        async with httpx.AsyncClient(timeout=120.0) as client:
-            await client.post(OLLAMA_URL, json={"model": MODEL, "prompt": "", "keep_alive": -1})
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            await client.post(
+                "http://localhost:11434/api/generate",
+                json={"model": MODEL, "prompt": "", "keep_alive": -1, "options": {"num_predict": 0}},
+            )
     except Exception:
         pass
     yield
@@ -31,14 +42,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
-
-OLLAMA_URL = "http://localhost:11434/api/chat"
-MODEL = "gemma3:4b"
-HEAD_K = 4
-HISTORY_WINDOW = 16
-NUM_CTX = 4096
 
 
 class ChatRequest(BaseModel):

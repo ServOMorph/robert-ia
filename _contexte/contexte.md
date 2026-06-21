@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk + backend systemd — chat Robert fonctionnel au reboot. OS réel : GNOME Shell / Wayland. Fond d'écran SérénIA Tech déployé. Écran de chargement agrandi x2 et déployé sur PC Linux (/opt/robert-ia/app/frontend/dist/). Bug /api/ready (retourne true trop tôt) toujours non traité. Dev Windows : python dev.py + ?screen=loading pour isoler les écrans. Prochaine étape : déboguer /api/ready.
+Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk + backend systemd — chat Robert fonctionnel au reboot. OS réel : GNOME Shell / Wayland. Fond d'écran SérénIA Tech déployé. Écran de chargement fonctionnel : lifespan corrigé (`/api/generate` + `num_predict:0`), `/api/ready` retourne `true` correctement via `/api/ps`. Lenteur 1er prompt (~5 min, i3-4130) = contrainte matérielle, gérée par formation. Prochaine étape : déploiement pilote Bistrot de Nérigean + formation animateurs.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
@@ -34,3 +34,4 @@ Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3
 - 2026-06-20 : GDM3 auto-login robert-ia + accès root SSH temporaire Windows→Linux (192.168.137.85) pour dev
 - 2026-06-21 : OS réel = GNOME Shell / Wayland (Ubuntu 24.04 par défaut, pas XFCE) — fond d'écran via gsettings
 - 2026-06-21 : Dev frontend Windows : override ?screen=<nom> en mode DEV (import.meta.env.DEV) + python dev.py
+- 2026-06-21 : Lifespan warmup via /api/generate + num_predict:0 (charge modèle en RAM sans génération) — /api/ready via /api/ps
