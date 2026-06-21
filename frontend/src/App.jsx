@@ -7,8 +7,16 @@ import './styles/global.css'
 
 const SCREENS = { LOADING: 'loading', WELCOME: 'welcome', PSEUDO: 'pseudo', CHAT: 'chat' }
 
+const initialScreen = () => {
+  if (import.meta.env.DEV) {
+    const forced = new URLSearchParams(window.location.search).get('screen')
+    if (Object.values(SCREENS).includes(forced)) return forced
+  }
+  return SCREENS.LOADING
+}
+
 export default function App() {
-  const [screen, setScreen] = useState(SCREENS.LOADING)
+  const [screen, setScreen] = useState(initialScreen)
   const [pseudo, setPseudo] = useState('Anonyme')
 
   const handleConsent = () => setScreen(SCREENS.PSEUDO)

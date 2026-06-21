@@ -15,28 +15,32 @@
 ## Blocages
 
 ## Contexte chaud
-- Session 9 (2026-06-21) : PC Linux tourne sous GNOME Shell (Wayland), pas XFCE — stack à corriger
+- PC Linux tourne sous GNOME Shell (Wayland) — stack corrigé dans contexte.md
 - Fond d'écran SérénIA Tech déployé : /home/robert-ia/fond-ecran-serenia.png via gsettings
 - Dock GNOME (~60px gauche) masque partiellement le fond d'écran — auto-hide non configuré
 - Accès SSH root toujours actif (clé robert-ia_ed25519 fonctionne)
-- Écran de chargement toujours non fonctionnel (/api/ready trop rapide) — non traité cette session
+- Projet déployé sur PC Linux : /opt/robert-ia/app/frontend/dist/
+- Écran de chargement agrandi x2 et déployé — bug /api/ready toujours non traité
+- Dev Windows : `python dev.py` + `?screen=loading` pour isoler l'écran de chargement
 
-## Dernière session (2026-06-21 — session 9)
+## Dernière session (2026-06-21 — session 10)
 
 ### Décisions prises
-- PC Linux tourne sous GNOME (pas XFCE) — stack documenté à corriger
-- Fond d'écran SérénIA Tech déployé sur le PC Linux via gsettings
+- Dev frontend : override d'écran par ?screen=<nom> dans l'URL (dev only, via import.meta.env.DEV)
+- Écran de chargement agrandi x2 (logo 80→160px, titre text-4xl→text-5xl, points 10→20px)
 
 ### Livrables produits ou modifiés
-- `/home/robert-ia/fond-ecran-serenia.png` (PC Linux) : fond d'écran copié via SCP
+- `frontend/src/App.jsx` : ajout initialScreen() avec override URL en mode DEV
+- `frontend/src/screens/Loading.css` : tailles doublées
+- `frontend/dist/` : rebuild + déployé sur /opt/robert-ia/app/frontend/dist/ (PC Linux)
+- `dev.py` : script racine pour lancer npm install + npm run dev depuis Windows
 
 ### Hypothèses validées / invalidées
-- INVALIDE : OS cible documenté comme XFCE → réalité : GNOME Shell (Wayland, gnome-shell actif)
-- EN ATTENTE : dock GNOME masque ~60px gauche du fond d'écran — auto-hide non configuré
+- VALIDE : déploiement SCP sur /opt/robert-ia/app/frontend/dist/ fonctionne sans redémarrage service
 
 ### Prochaine étape exacte
-Reprendre le débogage de /api/ready (P1 hérité session 8).
-Optionnel : configurer auto-hide du dock GNOME.
+Reprendre le débogage de /api/ready (P1 hérité) : /api/ps retourne true trop tôt,
+premier prompt lent. Investiguer lifespan Ollama ou mock /api/ready côté backend.
 
 ### Question bloquante pour la session suivante
 Aucune
