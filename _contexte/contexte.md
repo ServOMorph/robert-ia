@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk + backend systemd — chat Robert fonctionnel au reboot. OS réel : GNOME Shell / Wayland. Fond d'écran SérénIA Tech déployé. Lifespan warmup fonctionnel, `/api/ready` stable. Lenteur 1er prompt (~5 min, i3-4130) gérée par formation. Avant déploiement Bistrot : protocole analyse conversations + feature eau économisée + retrait accès root SSH.
+Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk + backend systemd. Protocole récupération/analyse conversations livré (`scripts/analyse_conversations.py` + docs) — non encore testé end-to-end sur vrai matériel. Avant déploiement Bistrot : test protocole récupération (P2), feature eau économisée (P2b), retrait accès root SSH (P3).
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Ollama keep_alive -1 + préchargement lifespan — modèle en RAM dès le démarrage du serveur

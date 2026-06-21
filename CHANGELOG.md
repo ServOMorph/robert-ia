@@ -1,3 +1,10 @@
+## v1.2 — 2026-06-21
+
+### Ajouté
+- `scripts/analyse_conversations.py` : export CSV + stats console (stdlib Python, compatible Windows)
+- `docs/PROTOCOLE_ANALYSE_CONVERSATIONS.md` : protocole usage Windows pour animateurs
+- `docs/GUIDE_RECUPERATION_ANALYSE.md` : guide complet Linux→USB→Windows avec checklist visite J+15
+
 ## v1.1 — 2026-06-21
 
 ### Modifié
