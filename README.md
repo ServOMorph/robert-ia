@@ -45,7 +45,7 @@ Ollama doit tourner en local sur `http://localhost:11434`.
 - **Phase 1** ✅ : Structure projet, environnement dev, repo public
 - **Phase 2** ✅ : Interface chat (Welcome/RGPD, Pseudo, Chat), historique SQLite, streaming NDJSON
 - **Phase 3** ✅ : Build statique frontend, packaging air-gap, systemd kiosk, protocole export données
-- **Phase 4 (en cours)** : Pilote installation Bistrot de Nérigean, formation animateurs, retours terrain
+- **Phase 4 (en cours)** : Pilote Bistrot de Nérigean — feature inactivité déployée, RustDesk autostart actif. Avant déploiement : test protocole récupération données, feature eau économisée, retrait accès root SSH
 
 Voir [roadmap_robert-ia.md](roadmap_robert-ia.md) pour le détail.
 

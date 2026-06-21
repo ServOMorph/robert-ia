@@ -1,5 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import './Chat.css'
+
+const IDLE_TIMEOUT_MS = 10 * 60 * 1000
+const COUNTDOWN_SECONDS = 30
 
 function generateSessionId() {
   return crypto.randomUUID()
@@ -15,7 +18,36 @@ export default function Chat({ pseudo, onEnd }) {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showIdleModal, setShowIdleModal] = useState(false)
+  const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS)
   const bottomRef = useRef(null)
+  const lastActivityRef = useRef(Date.now())
+
+  const resetActivity = useCallback(() => {
+    lastActivityRef.current = Date.now()
+    setShowIdleModal(false)
+    setCountdown(COUNTDOWN_SECONDS)
+  }, [])
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!showIdleModal && Date.now() - lastActivityRef.current >= IDLE_TIMEOUT_MS) {
+        setShowIdleModal(true)
+        setCountdown(COUNTDOWN_SECONDS)
+      }
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [showIdleModal])
+
+  useEffect(() => {
+    if (!showIdleModal) return
+    if (countdown <= 0) {
+      onEnd()
+      return
+    }
+    const timer = setTimeout(() => setCountdown((c) => c - 1), 1000)
+    return () => clearTimeout(timer)
+  }, [showIdleModal, countdown, onEnd])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView?.({ behavior: 'smooth' })
@@ -26,6 +58,7 @@ export default function Chat({ pseudo, onEnd }) {
     const text = input.trim()
     if (!text || loading) return
 
+    lastActivityRef.current = Date.now()
     setMessages((prev) => [...prev, { role: 'user', content: text }])
     setInput('')
     setLoading(true)
@@ -93,6 +126,19 @@ export default function Chat({ pseudo, onEnd }) {
 
   return (
     <div className="chat-screen">
+      {showIdleModal && (
+        <div className="idle-overlay" role="dialog" aria-modal="true" aria-labelledby="idle-title">
+          <div className="idle-modal">
+            <p id="idle-title" className="idle-title">Toujours là ?</p>
+            <p className="idle-body">
+              La session va se fermer dans <strong>{countdown}</strong> seconde{countdown > 1 ? 's' : ''}.
+            </p>
+            <button className="btn-primary idle-continue" onClick={resetActivity}>
+              Continuer la conversation
+            </button>
+          </div>
+        </div>
+      )}
       <header className="chat-header">
         <span className="chat-logo-initial">R</span>
         <div className="chat-header-info">

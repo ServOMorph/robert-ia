@@ -24,28 +24,28 @@ _(aucune)_
 ## Contexte chaud
 - PC Linux tourne sous GNOME Shell (Wayland)
 - Accès SSH root toujours actif (clé robert-ia_ed25519 fonctionne)
-- Projet déployé sur PC Linux : /opt/robert-ia/backend/data/robert.db
+- Projet déployé sur PC Linux : /opt/robert-ia/app/frontend/dist/ (chemin corrigé)
 - Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
 - Protocole récupération/analyse non encore testé end-to-end sur vrai matériel
+- rustdesk.service : enabled (multi-user.target), daemon-reload effectué — actif au prochain boot
 
-## Dernière session (2026-06-21 — session 13)
+## Dernière session (2026-06-21 — session 14)
 
 ### Décisions prises
-- Protocole analyse conversations livré : script Python autonome + docs animateurs
-- Test end-to-end ajouté comme prochaine étape obligatoire avant déploiement
+- Feature inactivité : modale après 10 min, compte à rebours 30s, retour accueil si pas de clic
+- RustDesk configuré pour démarrer automatiquement au boot (daemon-reload corrigé)
 
 ### Livrables produits ou modifiés
-- `scripts/analyse_conversations.py` : créé — export CSV + stats console, testé sur BD dev (328 msgs)
-- `docs/PROTOCOLE_ANALYSE_CONVERSATIONS.md` : créé — protocole usage Windows (animateurs)
-- `docs/GUIDE_RECUPERATION_ANALYSE.md` : créé — guide complet Linux→USB→Windows avec checklist J+15
+- `frontend/src/screens/Chat.jsx` : modifié — timer inactivité 10 min + modale countdown 30s
+- `frontend/src/screens/Chat.css` : modifié — styles modale idle (overlay + modal + bouton)
+- Build déployé sur PC Linux : `/opt/robert-ia/app/frontend/dist/` (anciens assets nettoyés)
 
 ### Hypothèses validées / invalidées
-- VALIDE : script Python stdlib suffit (pas de dépendance externe)
-- VALIDE : export CSV UTF-8-BOM compatible Excel sans manipulation
-- EN ATTENTE : test end-to-end sur vrai matériel (Linux → USB → Windows)
+- VALIDE : rustdesk.service was enabled but needed daemon-reload (fichier changé sur disque)
+- EN ATTENTE : test end-to-end protocole récupération sur vrai matériel
 
 ### Prochaine étape exacte
-Tester protocole complet (arrêt Robert, copie robert.db sur USB, analyse Windows, vérification CSV dans Excel), puis implémenter feature eau économisée (P2b).
+Tester protocole complet récupération/analyse (arrêt Robert, copie robert.db sur USB, analyse Windows, vérification CSV dans Excel), puis implémenter feature eau économisée (P2b).
 
 ### Question bloquante pour la session suivante
 Aucune

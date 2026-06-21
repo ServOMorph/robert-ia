@@ -1,3 +1,13 @@
+## v1.3 — 2026-06-21
+
+### Ajouté
+- `frontend/src/screens/Chat.jsx` : modale inactivité après 10 min, countdown 30s, retour accueil automatique
+- `frontend/src/screens/Chat.css` : styles modale idle
+
+### Modifié
+- RustDesk autostart activé sur PC Linux (daemon-reload rustdesk.service)
+- Frontend déployé sur PC Linux (chemin corrigé : /opt/robert-ia/app/frontend/dist/)
+
 ## v1.2 — 2026-06-21
 
 ### Ajouté
