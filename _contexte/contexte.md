@@ -4,7 +4,7 @@
 Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap, sessions anonymes, données 100 % locales). Modèle économique : revenus sur services (déploiement, maintenance, ateliers), code MIT open source.
 
 ## Stack / contraintes techniques (stable, rarement modifié)
-- OS cible : Ubuntu 24.04.1 LTS (XFCE), machine air-gap (i3-4130, 4 Go RAM, 120 Go)
+- OS cible : Ubuntu 24.04.1 LTS (GNOME Shell / Wayland), machine air-gap (i3-4130, 4 Go RAM, 120 Go)
 - IA : Ollama, modèle gemma3:4b (remplace 1b jugé non viable — sous réserve RAM 4 Go)
 - Backend : Python + FastAPI
 - Base de données : SQLite
@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk via XFCE autostart + backend systemd — chat Robert fonctionnel au reboot. Accès SSH root temporaire depuis Windows (192.168.137.85). Écran de chargement déployé mais non fonctionnel : /api/ready retourne true trop tôt, premier prompt lent. Prochaine étape : déboguer /api/ready avant déploiement pilote.
+Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk (XFCE autostart .desktop) + backend systemd — chat Robert fonctionnel au reboot. OS réel : GNOME Shell / Wayland (pas XFCE). Fond d'écran SérénIA Tech déployé. Écran de chargement non fonctionnel : /api/ready retourne true trop tôt. Prochaine étape : déboguer /api/ready avant déploiement pilote.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-18 : Stack Python+FastAPI / SQLite / React+Vite / Ollama gemma3:1b / kiosk browser
@@ -32,3 +32,4 @@ Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3
 - 2026-06-20 : FastAPI sert le frontend statique (StaticFiles) — file:// abandonné, tout sur port 8001
 - 2026-06-20 : Architecture split backend (systemd) / Firefox kiosk (XFCE autostart) — Wayland incompatible avec DISPLAY depuis service système
 - 2026-06-20 : GDM3 auto-login robert-ia + accès root SSH temporaire Windows→Linux (192.168.137.85) pour dev
+- 2026-06-21 : OS réel = GNOME Shell / Wayland (Ubuntu 24.04 par défaut, pas XFCE) — fond d'écran via gsettings

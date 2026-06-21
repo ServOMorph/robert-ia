@@ -1,4 +1,4 @@
-# Signals — robert-ia   (MAJ 2026-06-20)
+# Signals — robert-ia   (MAJ 2026-06-21)
 
 ## Actions ouvertes
 - [P1] Phase 4 — Déploiement pilote Bistrot de Nérigean (en cours)
@@ -15,37 +15,28 @@
 ## Blocages
 
 ## Contexte chaud
-- Session 8 (2026-06-20) : accès SSH root temporaire depuis Windows → PC Linux (192.168.137.85)
-- Firefox kiosk auto-launch validé (XFCE autostart + GDM3 auto-login)
-- Chat Robert fonctionnel au reboot, mais écran de chargement non fonctionnel (/api/ready trop rapide)
-- Accès root SSH accordé temporairement pour dev (à retirer avant site)
+- Session 9 (2026-06-21) : PC Linux tourne sous GNOME Shell (Wayland), pas XFCE — stack à corriger
+- Fond d'écran SérénIA Tech déployé : /home/robert-ia/fond-ecran-serenia.png via gsettings
+- Dock GNOME (~60px gauche) masque partiellement le fond d'écran — auto-hide non configuré
+- Accès SSH root toujours actif (clé robert-ia_ed25519 fonctionne)
+- Écran de chargement toujours non fonctionnel (/api/ready trop rapide) — non traité cette session
 
-## Dernière session (2026-06-20 — session 8)
+## Dernière session (2026-06-21 — session 9)
 
 ### Décisions prises
-- Accès root SSH accordé temporairement sur PC Linux pour la phase dev (à retirer avant déploiement)
-- Architecture split : backend (systemd) / Firefox kiosk (XFCE autostart .desktop)
-- GDM3 auto-login configuré pour l'utilisateur robert-ia
+- PC Linux tourne sous GNOME (pas XFCE) — stack documenté à corriger
+- Fond d'écran SérénIA Tech déployé sur le PC Linux via gsettings
 
 ### Livrables produits ou modifiés
-- `scripts/start-backend.sh` : nouveau — démarre uvicorn via exec (systemd track le PID)
-- `scripts/start-kiosk.sh` : modifié — Firefox only, attend /health, http://localhost:8001
-- `config/robert-ia.service` : modifié — Restart=always, pas de DISPLAY/XAUTHORITY
-- `config/robert-ia-kiosk.desktop` : nouveau — XFCE autostart pour Firefox
-- `backend/main.py` : ajout endpoint /api/ready (check Ollama /api/ps)
-- `frontend/src/screens/Loading.jsx` + `Loading.css` : nouveau — écran de chargement
-- `frontend/src/App.jsx` : modifié — état initial LOADING
+- `/home/robert-ia/fond-ecran-serenia.png` (PC Linux) : fond d'écran copié via SCP
 
 ### Hypothèses validées / invalidées
-- VALIDE : GDM3 auto-login fonctionne (plus d'écran de connexion au boot)
-- VALIDE : Firefox kiosk se lance automatiquement via XFCE autostart
-- VALIDE : Chat Robert fonctionnel sur PC Linux (gemma3:4b, port 8001)
-- INVALIDE : /api/ready retourne true trop tôt — loading screen s'efface avant que le modèle soit en RAM
+- INVALIDE : OS cible documenté comme XFCE → réalité : GNOME Shell (Wayland, gnome-shell actif)
+- EN ATTENTE : dock GNOME masque ~60px gauche du fond d'écran — auto-hide non configuré
 
 ### Prochaine étape exacte
-Déboguer /api/ready : identifier pourquoi l'endpoint retourne true alors que le modèle n'est pas encore
-opérationnel, puis corriger pour que l'écran de chargement reste actif jusqu'au premier token possible.
+Reprendre le débogage de /api/ready (P1 hérité session 8).
+Optionnel : configurer auto-hide du dock GNOME.
 
 ### Question bloquante pour la session suivante
-/api/ready retourne true via /api/ps mais le premier prompt est lent — est-ce que le lifespan
-ne précharge pas réellement le modèle en RAM, ou /api/ps ment sur l'état du modèle ?
+Aucune
