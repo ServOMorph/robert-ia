@@ -1,4 +1,4 @@
-# Signals — robert-ia   (MAJ 2026-06-21)
+# Signals — robert-ia   (MAJ 2026-06-22)
 
 ## Actions ouvertes
 - [P1] Phase 4 — Déploiement pilote Bistrot de Nérigean (en cours)
@@ -15,7 +15,6 @@
   réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519)
 
 ## Questions ouvertes
-_(aucune)_
 
 ## Échéances
 
@@ -23,29 +22,25 @@ _(aucune)_
 
 ## Contexte chaud
 - PC Linux tourne sous GNOME Shell (Wayland)
-- Accès SSH root toujours actif (clé robert-ia_ed25519 fonctionne)
-- Projet déployé sur PC Linux : /opt/robert-ia/app/frontend/dist/ (chemin corrigé)
-- Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
+- Accès SSH root actif (clé C:\Users\raph6\.ssh\robert-ia_ed25519, IP 192.168.137.85, user root)
+- Claude Code prend le contrôle Linux automatiquement via SSH (instrutions dans .claude/CLAUDE.md)
+- Optimisations RAM appliquées : OLLAMA_NO_MMAP=false + KEEP_ALIVE=5m + Chromium + RustDesk désactivé
 - Protocole récupération/analyse non encore testé end-to-end sur vrai matériel
-- rustdesk.service : enabled (multi-user.target), daemon-reload effectué — actif au prochain boot
+- Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
 
-## Dernière session (2026-06-21 — session 14)
+## Dernière session (2026-06-22 — session 15)
 
 ### Décisions prises
-- Feature inactivité : modale après 10 min, compte à rebours 30s, retour accueil si pas de clic
-- RustDesk configuré pour démarrer automatiquement au boot (daemon-reload corrigé)
+- CLAUDE.md : section SSH ajoutée — Claude prend le contrôle du Linux automatiquement sans demander de copier-coller
 
 ### Livrables produits ou modifiés
-- `frontend/src/screens/Chat.jsx` : modifié — timer inactivité 10 min + modale countdown 30s
-- `frontend/src/screens/Chat.css` : modifié — styles modale idle (overlay + modal + bouton)
-- Build déployé sur PC Linux : `/opt/robert-ia/app/frontend/dist/` (anciens assets nettoyés)
+- `.claude/CLAUDE.md` : modifié — section "Contrôle SSH du PC Linux" avec commande, règles, référence doc
 
 ### Hypothèses validées / invalidées
-- VALIDE : rustdesk.service was enabled but needed daemon-reload (fichier changé sur disque)
-- EN ATTENTE : test end-to-end protocole récupération sur vrai matériel
+- VALIDE : l'info SSH survivait au /close via contexte.md et CONTROLE_SSH_CLAUDE.md — lacune = absence d'instruction automatique dans CLAUDE.md
 
 ### Prochaine étape exacte
-Tester protocole complet récupération/analyse (arrêt Robert, copie robert.db sur USB, analyse Windows, vérification CSV dans Excel), puis implémenter feature eau économisée (P2b).
+Tester protocole complet récupération/analyse (arrêt Robert, copie robert.db sur USB, analyse Windows, vérification CSV dans Excel), puis feature eau économisée (P2b).
 
 ### Question bloquante pour la session suivante
 Aucune

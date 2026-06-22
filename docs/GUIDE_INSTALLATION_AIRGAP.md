@@ -9,14 +9,14 @@
 - **GPU** : Non requis (CPU suffisant pour gemma3:4b)
 
 ### Système d'exploitation
-- **Ubuntu 24.04.1 LTS** (XFCE Desktop)
+- **Ubuntu 24.04.1 LTS** (GNOME Shell / Wayland)
 - Accès root ou sudo
 - Connexion Internet (pour phase d'installation seulement)
 
 ### Logiciels
 - Ollama (avec modèle gemma3:4b pré-téléchargé)
 - Python 3.11+
-- Firefox ou Chromium (navigateur kiosk)
+- Chromium (navigateur kiosk)
 
 ---
 
@@ -35,9 +35,7 @@ sudo apt install -y \
     python3-venv \
     python3-pip \
     curl \
-    firefox \
-    xfce4 \
-    xfce4-goodies \
+    chromium-browser \
     sqlite3 \
     git
 ```
@@ -198,12 +196,12 @@ journalctl -u robert-ia -f
 curl http://localhost:11434/api/tags
 
 # Vérifier le backend
-curl http://localhost:8000/health
+curl http://localhost:8001/health
 # Résultat attendu: {"status":"ok"}
 ```
 
 ### 5.2 Vérifier l'interface utilisateur
-- Le navigateur Firefox doit s'ouvrir en kiosk (fullscreen)
+- Le navigateur Chromium doit s'ouvrir en kiosk (fullscreen)
 - Écran Welcome/RGPD → bouton "J'accepte"
 - Écran de saisie du pseudo
 - Écran de chat fonctionnel
@@ -221,17 +219,15 @@ curl http://localhost:8000/health
 
 ## Phase 6 : Configuration avancée
 
-### 6.1 Configurer le XFCE pour démarrage automatique
-Pour que le service démarre APRÈS le login XFCE (optionnel) :
+### 6.1 Configurer le démarrage automatique GNOME
+Le démarrage automatique est géré via un fichier `.desktop` dans `~/.config/autostart/` :
 
-1. Accéder aux paramètres XFCE (Settings → Session and Startup)
-2. Onglet "Application Autostart"
-3. Ajouter une nouvelle application :
-   ```
-   Name: Robert-IA
-   Description: Interface IA locale
-   Command: systemctl start robert-ia
-   ```
+```
+/home/robert-ia/.config/autostart/robert-ia-kiosk.desktop
+```
+
+Ce fichier appelle `/opt/robert-ia/scripts/start-kiosk.sh` qui attend le backend
+puis lance Chromium en kiosk. GDM3 est configuré en auto-login sur l'utilisateur `robert-ia`.
 
 ### 6.2 Rediriger le port pour accès distant (seulement si nécessaire)
 ```bash
@@ -283,11 +279,13 @@ du -sh /opt/robert-ia/app/frontend/
 
 ## Troubleshooting
 
-### Problème: Firefox ne se lance pas
+### Problème: Chromium ne se lance pas
 ```bash
-# Cause possible: Xvfb/DISPLAY non configuré
-# Solution:
-DISPLAY=:0 firefox --kiosk file:///opt/robert-ia/app/frontend/dist/index.html
+# Vérifier les logs kiosk
+cat /opt/robert-ia/logs/kiosk.log
+
+# Lancer manuellement depuis le bureau GNOME
+/opt/robert-ia/scripts/start-kiosk.sh
 ```
 
 ### Problème: "Ollama non disponible" dans l'interface
@@ -322,7 +320,7 @@ sudo cp /tmp/robert_fixed.db /opt/robert-ia/data/robert.db
 ### Problème: Port 8000 déjà occupé
 ```bash
 # Trouver le processus
-lsof -i :8000
+lsof -i :8001
 
 # Tuer le processus (si besoin)
 sudo kill -9 <PID>

@@ -1,3 +1,8 @@
+## v1.4 — 2026-06-22
+
+### Modifié
+- `.claude/CLAUDE.md` : section "Contrôle SSH du PC Linux" ajoutée — Claude exécute les commandes Linux automatiquement via SSH sans copier-coller
+
 ## v1.3 — 2026-06-21
 
 ### Ajouté

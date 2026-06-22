@@ -32,6 +32,24 @@ Ne jamais écrire dans le dossier `memory/` ni dans aucun système de mémoire p
 ### Mémoire projet
 Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fichier contient les décisions, préférences et contexte persistants choisis explicitement par l'utilisateur via `/create_memory`. Ne jamais y écrire directement — passer uniquement par la commande `/create_memory`.
 
+## Contrôle SSH du PC Linux
+
+Quand une tâche concerne le PC Linux (services systemd, fichiers de config, RAM, logs, redémarrages), l'exécuter directement via SSH sans demander à l'utilisateur de copier-coller des commandes.
+
+**Connexion :**
+```powershell
+ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@192.168.137.85 "commande"
+```
+
+**Règles :**
+- Vérifier la connectivité avant d'exécuter (`ping 192.168.137.85 -n 1`)
+- Lire le retour de chaque commande et en tenir compte avant la suivante
+- Ne pas utiliser de commandes interactives (nano, vim, htop)
+- Pour les fichiers multi-lignes : passer par `cat > fichier << 'EOF'` ou écrire localement puis `scp`
+- Informer l'utilisateur de ce qui est exécuté et du résultat, sans lui demander de le faire manuellement
+
+**Détail complet :** `docs/CONTROLE_SSH_CLAUDE.md`
+
 ## Données sensibles
 
 Certains dossiers ou fichiers peuvent contenir des données sensibles (informations clients, données personnelles, fichiers financiers). Les lister ici pour interdire toute lecture ou écriture sans instruction explicite :

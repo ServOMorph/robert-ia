@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Firefox kiosk + backend systemd + RustDesk (daemon-reload effectué). Feature inactivité déployée (modale 10 min + countdown 30s). Protocole récupération/analyse non encore testé end-to-end. Avant déploiement Bistrot : test protocole récupération (P2), feature eau économisée (P2b), retrait accès root SSH (P3).
+Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3 auto-login + Chromium kiosk + backend systemd. Feature inactivité déployée (modale 10 min + countdown 30s). Optimisations RAM appliquées (mmap, KEEP_ALIVE, RustDesk désactivé). Claude Code contrôle le Linux via SSH automatiquement (.claude/CLAUDE.md). Avant déploiement Bistrot : test protocole récupération (P2), feature eau économisée (P2b), retrait accès root SSH (P3).
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-20 : Architecture mémoire — tête épinglée K=4 + fenêtre glissante 16 + system prompt enrichi → 18/20
@@ -27,3 +27,4 @@ Phases 1–3 complètes. Phase 4 en cours. Démarrage automatique validé : GDM3
 - 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
 - 2026-06-21 : RustDesk autostart via rustdesk.service (enabled, multi-user.target) — daemon-reload requis après màj fichier service
 - 2026-06-21 : Frontend déployé dans /opt/robert-ia/app/frontend/dist/ (pas /opt/robert-ia/frontend/dist/)
+- 2026-06-22 : Claude Code prend le contrôle SSH du Linux automatiquement (instruction dans .claude/CLAUDE.md) — clé robert-ia_ed25519, IP 192.168.137.85, user root
