@@ -1,3 +1,8 @@
+## v1.6 — 2026-06-22
+
+### Ajouté
+- `scripts/test_rag.py` : script de test automatique mini RAG — 3 niveaux (culture générale / association / refus internet), log dans logs/
+
 ## v1.5 — 2026-06-22
 
 ### Ajouté
