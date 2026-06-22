@@ -10,6 +10,9 @@
 - [P2b] AVANT DÉPLOIEMENT : feature affichage eau économisée (Robert IA locale vs IA cloud) — mise en lumière aspect éco-responsable
   fait quand: compteur eau visible dans l'UI (ex: fin de session ou écran accueil)
   réf: frontend/src/, à préciser (calcul liters/request cloud vs local)
+- [P2c] AVANT DÉPLOIEMENT : tester le system prompt avec le mini RAG en conditions réelles
+  fait quand: 3 niveaux validés manuellement — culture générale / infos L'Invariable depuis knowledge.txt / refus météo avec explication
+  réf: backend/prompt.py, backend/knowledge.txt, backend/main.py
 - [P3] AVANT DÉPLOIEMENT SITE : retirer l'accès root SSH du PC Linux (accès root accordé temporairement pour la phase dev)
   fait quand: `PermitRootLogin no` dans sshd_config + service redémarré + accès root vérifié refusé
   réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519)
@@ -23,24 +26,34 @@
 ## Contexte chaud
 - PC Linux tourne sous GNOME Shell (Wayland)
 - Accès SSH root actif (clé C:\Users\raph6\.ssh\robert-ia_ed25519, IP 192.168.137.85, user root)
-- Claude Code prend le contrôle Linux automatiquement via SSH (instrutions dans .claude/CLAUDE.md)
+- Claude Code prend le contrôle Linux automatiquement via SSH (instructions dans .claude/CLAUDE.md)
 - Optimisations RAM appliquées : OLLAMA_NO_MMAP=false + KEEP_ALIVE=5m + Chromium + RustDesk désactivé
-- Protocole récupération/analyse non encore testé end-to-end sur vrai matériel
+- Protocole récupération : robert.db récupéré via SSH + CSV généré — test USB + vérification Excel restants
 - Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
+- Mini RAG déployé : knowledge.txt injecté dans system prompt — knowledge.txt à enrichir si nouvelles infos association
 
-## Dernière session (2026-06-22 — session 15)
+## Dernière session (2026-06-22 — session 16)
 
 ### Décisions prises
-- CLAUDE.md : section SSH ajoutée — Claude prend le contrôle du Linux automatiquement sans demander de copier-coller
+- Protocole Windows→Linux établi : toute modification fichier applicatif faite sur Windows d'abord, puis déployée via scp
+- Mini RAG : knowledge.txt injecté dans system prompt, 3 niveaux de réponse (culture générale / association / pas d'accès internet)
+- Synchronisation Windows/Linux vérifiée et corrigée (2 fichiers désynchronisés : start-kiosk.sh + ollama.service)
 
 ### Livrables produits ou modifiés
-- `.claude/CLAUDE.md` : modifié — section "Contrôle SSH du PC Linux" avec commande, règles, référence doc
+- `.claude/CLAUDE.md` : section "Synchronisation Windows→Linux" ajoutée
+- `backend/prompt.py` : refondu — build_system_prompt() + 3 niveaux de réponse
+- `backend/main.py` : charge knowledge.txt au démarrage et l'injecte dans le system prompt
+- `backend/knowledge.txt` : créé — infos L'Invariable (adresse, horaires mardi/vendredi/samedi, concept)
+- `config/ollama.service` : créé (synchronisation — manquait sur Windows)
+- `scripts/start-kiosk.sh` : Firefox → Chromium (synchronisation)
 
 ### Hypothèses validées / invalidées
-- VALIDE : l'info SSH survivait au /close via contexte.md et CONTROLE_SSH_CLAUDE.md — lacune = absence d'instruction automatique dans CLAUDE.md
+- VALIDE : fichiers backend (main.py, prompt.py, database.py, requirements.txt) identiques Windows/Linux
+- VALIDE : 2 fichiers de config désynchronisés détectés et corrigés
+- VALIDE : hallucinations identifiées dans les vraies conversations (météo, horaires inventés, association inventée, modèle LLM)
 
 ### Prochaine étape exacte
-Tester protocole complet récupération/analyse (arrêt Robert, copie robert.db sur USB, analyse Windows, vérification CSV dans Excel), puis feature eau économisée (P2b).
+Tester le system prompt mini RAG manuellement sur le Linux : question culture générale, question sur L'Invariable, question météo — vérifier les 3 niveaux de réponse.
 
 ### Question bloquante pour la session suivante
 Aucune

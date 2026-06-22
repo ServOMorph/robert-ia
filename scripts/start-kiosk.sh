@@ -15,7 +15,5 @@ for i in $(seq 1 60); do
     sleep 1
 done
 
-rm -f ~/.mozilla/firefox/*/lock ~/.mozilla/firefox/*/.parentlock 2>/dev/null || true
-
-log "Lancement Firefox kiosk..."
-exec firefox --new-instance --kiosk "http://localhost:8001" --no-remote >> "$KIOSK_LOG" 2>&1
+log "Lancement Chromium kiosk..."
+exec chromium-browser --kiosk   --no-sandbox   --disable-extensions   --disable-background-networking   --disable-default-apps   --no-first-run   --renderer-process-limit=1   --disable-features=Translate   "http://localhost:8001" >> "$KIOSK_LOG" 2>&1

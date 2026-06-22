@@ -32,6 +32,17 @@ Ne jamais écrire dans le dossier `memory/` ni dans aucun système de mémoire p
 ### Mémoire projet
 Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fichier contient les décisions, préférences et contexte persistants choisis explicitement par l'utilisateur via `/create_memory`. Ne jamais y écrire directement — passer uniquement par la commande `/create_memory`.
 
+## Synchronisation Windows → Linux
+
+**Règle absolue :** toute modification de fichier applicatif (code, config, system prompt, scripts) est d'abord faite sur Windows dans ce projet (`d:\ServOMorph\robert-ia`), puis déployée sur Linux via `scp`. Ne jamais modifier un fichier applicatif directement sur Linux sans l'avoir modifié sur Windows au préalable.
+
+**Séquence à respecter :**
+1. Modifier le fichier dans le projet Windows
+2. Copier sur Linux via `scp -i "C:\Users\raph6\.ssh\robert-ia_ed25519" "<chemin_windows>" root@192.168.137.85:"<chemin_linux>"`
+3. Redémarrer le service si nécessaire (`systemctl restart robert-ia`)
+
+**Exception :** les actions sans fichier associé (redémarrages, lecture de logs, diagnostic RAM) s'exécutent directement via SSH.
+
 ## Contrôle SSH du PC Linux
 
 Quand une tâche concerne le PC Linux (services systemd, fichiers de config, RAM, logs, redémarrages), l'exécuter directement via SSH sans demander à l'utilisateur de copier-coller des commandes.

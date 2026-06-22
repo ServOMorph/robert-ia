@@ -9,7 +9,18 @@ from pydantic import BaseModel
 import httpx
 
 from database import init_db, save_message, get_head, get_history
-from prompt import SYSTEM_PROMPT
+from prompt import build_system_prompt
+
+KNOWLEDGE_PATH = os.path.join(os.path.dirname(__file__), "knowledge.txt")
+
+def load_knowledge() -> str:
+    try:
+        with open(KNOWLEDGE_PATH, encoding="utf-8") as f:
+            return f.read()
+    except FileNotFoundError:
+        return "(aucune connaissance spécifique chargée)"
+
+SYSTEM_PROMPT = build_system_prompt(load_knowledge())
 
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 

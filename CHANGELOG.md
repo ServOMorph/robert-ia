@@ -1,3 +1,15 @@
+## v1.5 — 2026-06-22
+
+### Ajouté
+- `backend/knowledge.txt` : base de connaissance L'Invariable (adresse, horaires, concept) — injectée dans le system prompt au démarrage
+- `config/ollama.service` : fichier de service Ollama ajouté côté Windows (synchronisation)
+
+### Modifié
+- `backend/prompt.py` : system prompt refondu — 3 niveaux de réponse (culture générale / association depuis knowledge.txt / refus avec explication pour météo et internet)
+- `backend/main.py` : charge knowledge.txt au démarrage et l'injecte dans le system prompt via build_system_prompt()
+- `scripts/start-kiosk.sh` : Firefox → Chromium (synchronisation Windows/Linux)
+- `.claude/CLAUDE.md` : section "Synchronisation Windows→Linux" ajoutée — protocole Windows first + scp
+
 ## v1.4 — 2026-06-22
 
 ### Modifié

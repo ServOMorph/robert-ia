@@ -1,5 +1,11 @@
 # Archive — Décisions structurantes robert-ia
 
+Archivé le 2026-06-22 (dépassement seuil 10 entrées dans contexte.md)
+
+- 2026-06-20 : Architecture mémoire — tête épinglée K=4 + fenêtre glissante 16 + system prompt enrichi → 18/20
+- 2026-06-20 : FastAPI sert le frontend statique (StaticFiles) — file:// abandonné, tout sur port 8001
+- 2026-06-20 : Architecture split backend (systemd) / kiosk (GNOME autostart) — Wayland incompatible avec DISPLAY depuis service système
+
 Archivé le 2026-06-21 (dépassement seuil 10 entrées dans contexte.md)
 
 - 2026-06-18 : Ollama keep_alive -1 + préchargement lifespan — modèle en RAM dès le démarrage du serveur
