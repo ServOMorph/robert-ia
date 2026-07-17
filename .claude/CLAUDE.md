@@ -66,13 +66,13 @@ Lire `.claude/memory.md` en début de chaque session si le fichier existe. Ce fi
 Certains dossiers ou fichiers peuvent contenir des données sensibles (informations clients, données personnelles, fichiers financiers). Les lister ici pour interdire toute lecture ou écriture sans instruction explicite :
 
 ## Délégation Ollama
-Pour les tâches répétitives et templated (commits, posts, changelogs, données de test, digest de logs), déléguer à Ollama via `./ollama_call.sh` plutôt que de traiter en cloud. Ne jamais envoyer de données sensibles à un modèle cloud.
+Pour les tâches répétitives et templated (commits, posts, changelogs, données de test, digest de logs), déléguer à Ollama via `python ollama_call.py "<prompt>"` plutôt que de traiter en cloud. Ne jamais envoyer de données sensibles à un modèle cloud.
 
 ## Spécificités projet
 
 Section réservée aux règles propres à ce projet, hors périmètre du kit. Cette section est préservée intégralement par `/update` (jamais écrasée ni fusionnée avec le contenu du kit). Convention : toute règle liée à une section précise du fichier doit la référencer explicitement par son titre (ex: "Section Roadmap : ..."), plutôt que compter sur la position physique de cette section (toujours en fin de fichier).
 
-## Synchronisation Windows → Linux
+### Synchronisation Windows → Linux
 
 **Règle absolue :** toute modification de fichier applicatif (code, config, system prompt, scripts) est d'abord faite sur Windows dans ce projet (`d:\ServOMorph\robert-ia`), puis déployée sur Linux via `scp`. Ne jamais modifier un fichier applicatif directement sur Linux sans l'avoir modifié sur Windows au préalable.
 
@@ -83,7 +83,7 @@ Section réservée aux règles propres à ce projet, hors périmètre du kit. Ce
 
 **Exception :** les actions sans fichier associé (redémarrages, lecture de logs, diagnostic RAM) s'exécutent directement via SSH.
 
-## Contrôle SSH du PC Linux
+### Contrôle SSH du PC Linux
 
 Quand une tâche concerne le PC Linux (services systemd, fichiers de config, RAM, logs, redémarrages), l'exécuter directement via SSH sans demander à l'utilisateur de copier-coller des commandes.
 
