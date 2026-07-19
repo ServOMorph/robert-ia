@@ -57,3 +57,7 @@ htmlcov/
 
 # Ollama
 ollama_models/
+
+# Local data directory
+data/
+
