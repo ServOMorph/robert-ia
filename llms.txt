@@ -1,0 +1,40 @@
+# Robert-IA — Assistant conversationnel local pour espaces associatifs
+
+Robert-IA est un assistant virtuel conversationnel, autonome et déconnecté (mode air-gap), destiné à être déployé sur des bornes kiosk dans des tiers-lieux ou des associations. Il garantit une confidentialité absolue en traitant les requêtes localement via Ollama sans aucun échange de données externe.
+
+## Informations Clés
+- **Dépôt GitHub** : `ServOMorph/robert-ia`
+- **Stack technique** : Python 3.10+, FastAPI, SQLite, React (Vite), Ollama (LLM gemma3:4b), Linux Ubuntu 24.04 (mode Kiosk)
+- **Licence** : MIT
+
+## Points d'entrée du projet
+- **Backend (API FastAPI)** : `backend/main.py`
+  - `/api/chat` (POST) : Point d'accès principal gérant le streaming NDJSON des tokens LLM et la persistance SQLite.
+  - `/api/ready` (GET) : Vérifie la disponibilité du modèle sur Ollama local.
+- **Frontend (Interface React)** : `frontend/src/main.jsx`
+  - Fichier principal de l'application : `frontend/src/App.jsx`
+  - Composant principal de chat : `frontend/src/screens/Chat.jsx`
+- **Développement** : `run.py` (Script de lancement global pour le développement)
+- **Analyse** : `scripts/analyse_conversations.py` (Script utilitaire d'exportation de statistiques et de nettoyage)
+
+## Structure du Dépôt
+- `backend/` : API FastAPI, configuration de l'invite de commande (prompt) et de la base de connaissances.
+  - `backend/main.py` : Serveur d'API FastAPI et routes principales.
+  - `backend/prompt.py` : Logique de construction du system prompt à 3 niveaux.
+  - `backend/knowledge.txt` : Données de connaissances locales chargées par le RAG.
+  - `backend/tests/` : Suite de tests unitaires pour l'API.
+- `frontend/` : Application Web monopage React + Vite.
+  - `frontend/src/screens/` : Écrans d'accueil (Welcome), de consentement RGPD et de Chat.
+  - `frontend/src/tests/` : Tests de composants avec Vitest.
+- `scripts/` : Outils d'automatisation pour le déploiement Linux et l'analyse.
+  - `analyse_conversations.py` : Analyse de l'historique local SQLite et export CSV.
+  - `start-kiosk.sh` / `start-backend.sh` : Scripts systemd d'amorçage sur la machine cible.
+  - `setup-airgap.sh` / `install-systemd.sh` : Automatisation de la mise en place sur PC Ubuntu hors-ligne.
+- `docs/` : Guides d'installation, d'exploitation et de récupération des données.
+- `_contexte/` : Fichiers de suivi et de manifestes de développement (contexte.md, signals.md).
+
+## Concepts Clés et Spécificités
+- **RAG local niveau 2** : Le serveur backend FastAPI injecte le contenu de `backend/knowledge.txt` (informations pratiques de l'association locale) directement dans le prompt système envoyé au LLM local.
+- **System Prompt à 3 niveaux** : Structure de dialogue configurée dans `backend/prompt.py` pour répondre sur la culture générale ou le lieu associatif, tout en refusant explicitement et pédagogiquement d'aller chercher sur internet (puisque la borne est déconnectée).
+- **Protection RGPD et Session Temporaire** : Aucun identifiant personnel n'est conservé. Un mécanisme d'idle-check de 10 minutes (`frontend/src/screens/Chat.jsx`) réinitialise l'affichage et vide l'état après un compte à rebours de 30 secondes en cas d'absence prolongée de l'utilisateur.
+- **Calcul d'eau économisée** : Fonctionnalité écologique estimant la réduction de l'empreinte carbone et hydrique en utilisant un modèle local léger (`gemma3:4b`) plutôt qu'une requête vers un LLM cloud massif.
