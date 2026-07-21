@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Démonstration Robert-IA — Moulin du Sud</title>
+<meta name="description" content="Démonstration de Robert-IA, assistant conversationnel 100% local, le samedi 25 juillet 2026 au Moulin du Sud à Génissac.">
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #171a21;
+    --text: #f2f2f2;
+    --muted: #a0a6b0;
+    --accent: #4f9dde;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .card {
+    max-width: 560px;
+    width: 100%;
+    background: var(--card);
+    border-radius: 16px;
+    padding: 32px;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+  }
+  .tagline {
+    color: var(--muted);
+    margin: 0 0 24px;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .info div {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+  }
+  .label {
+    color: var(--accent);
+    font-weight: 600;
+    min-width: 90px;
+  }
+  p {
+    line-height: 1.6;
+  }
+  .footer {
+    margin-top: 24px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Démonstration Robert-IA</h1>
+    <p class="tagline">Un assistant conversationnel 100% local et déconnecté, conçu pour les espaces associatifs.</p>
+
+    <div class="info">
+      <div><span class="label">Date</span><span>Samedi 25 juillet 2026</span></div>
+      <div><span class="label">Lieu</span><span>Moulin du Sud — 1141 route du Moulin du Sud, 33420 Génissac</span></div>
+      <div><span class="label">Accès</span><span>Démonstration libre et gratuite</span></div>
+    </div>
+
+    <p>Venez découvrir Robert-IA en conditions réelles. Don possible sur place au bénéfice du Moulin du Sud.</p>
+
+    <div class="info">
+      <div><span class="label">Open source</span><span>Code ouvert et auditable, sans dépendance à un éditeur propriétaire</span></div>
+      <div><span class="label">Local</span><span>Aucune donnée envoyée vers un cloud, fonctionne déconnecté</span></div>
+      <div><span class="label">Sobriété</span><span>Consommation énergétique maîtrisée, pas d'infrastructure distante à alimenter</span></div>
+    </div>
+
+    <div class="footer">Au plaisir de vous y retrouver.</div>
+  </div>
+</body>
+</html>

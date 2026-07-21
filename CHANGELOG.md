@@ -1,3 +1,9 @@
+## v1.7 — 2026-07-21
+
+### Modifié
+- `COM/message_whatsapp_25072026.md` : finalisation du message (thèmes éco-responsabilité/éthique, horaires 15h-17h, smileys) ; lien de la landing page en attente
+- Landing page de l'événement du 25/07/2026 déléguée à l'agent du site internet SéréniaTech (hors périmètre robert-ia)
+
 ## v1.6 — 2026-06-22
 
 ### Ajouté
