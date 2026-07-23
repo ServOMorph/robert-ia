@@ -50,7 +50,9 @@
   font-size: var(--text-sm);
   color: var(--color-primary-dark);
   font-style: italic;
+  transition: opacity var(--transition-fast);
 }
+
 
 .chat-end {
   padding: var(--space-sm) var(--space-lg);

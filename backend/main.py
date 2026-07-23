@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import httpx
 
-from database import init_db, save_message, get_head, get_history
+from database import init_db, save_message, get_head, get_history, count_user_messages
 from prompt import build_system_prompt
 
 KNOWLEDGE_PATH = os.path.join(os.path.dirname(__file__), "knowledge.txt")
@@ -29,6 +29,9 @@ MODEL = "gemma3:4b"
 HEAD_K = 4
 HISTORY_WINDOW = 16
 NUM_CTX = 4096
+# Estimation prudente : bornes documentées entre 0,26 ml (Google, refroidissement direct)
+# et ~0,5 L (UC Riverside, refroidissement + production électrique) par requête cloud.
+WATER_LITERS_PER_REQUEST = 0.3
 
 
 @asynccontextmanager
@@ -64,6 +67,11 @@ class ChatRequest(BaseModel):
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/api/water-stats")
+def water_stats():
+    return {"liters": round(count_user_messages() * WATER_LITERS_PER_REQUEST, 1)}
 
 
 @app.get("/api/ready")
@@ -125,9 +133,12 @@ async def chat(req: ChatRequest):
     return StreamingResponse(stream(), media_type="application/x-ndjson")
 
 
+INDEX_HTML_HEADERS = {"Cache-Control": "no-cache"}
+
+
 @app.get("/")
 def serve_frontend():
-    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"), headers=INDEX_HTML_HEADERS)
 
 
 @app.get("/{path:path}")
@@ -135,7 +146,7 @@ def serve_static(path: str):
     file_path = os.path.join(FRONTEND_DIR, path)
     if os.path.isfile(file_path):
         return FileResponse(file_path)
-    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"), headers=INDEX_HTML_HEADERS)
 
 
 if os.path.isdir(FRONTEND_DIR):

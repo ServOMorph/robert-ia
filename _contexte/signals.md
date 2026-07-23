@@ -7,9 +7,9 @@
 - [P2] TESTER protocole récupération + analyse conversations (end-to-end)
   fait quand: test réalisé sur PC Windows avec un vrai robert.db exporté depuis Linux via USB — CSV généré et lisible dans Excel
   réf: scripts/analyse_conversations.py, docs/GUIDE_RECUPERATION_ANALYSE.md, docs/PROTOCOLE_ANALYSE_CONVERSATIONS.md
-- [P2b] EN COURS : feature bandeau eau économisée — compteur dynamique, alternance avec le disclaimer, 0,3 L/requête (estimation)
-  fait quand: Chat.jsx/Chat.css implémentés + tests passants + build + déployé sur Linux (scp + restart) + validation visuelle kiosk
-  réf: roadmap_robert-ia.md (Phase 4 > P2b, plan détaillé), frontend/src/screens/Chat.jsx, Chat.css
+- [P2b] PRESQUE FAIT : bandeau eau économisée — total cumulé (jamais reset) via `GET /api/water-stats`, affiché sur Welcome + bandeau Chat, style aligné sur le disclaimer
+  fait quand: confirmation visuelle finale de l'utilisateur sur le kiosk (couleur/police corrigées, dernier redéploiement en attente de retour)
+  réf: roadmap_robert-ia.md (Phase 4 > P2b), backend/main.py (water-stats), frontend/src/utils/water.js, App.jsx, Welcome.jsx, Chat.jsx
 - [P3] AVANT DÉPLOIEMENT SITE : retirer l'accès root SSH du PC Linux (accès root accordé temporairement pour la phase dev)
   fait quand: `PermitRootLogin no` dans sshd_config + service redémarré + accès root vérifié refusé
   réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519), roadmap_robert-ia.md (Phase 4 > P3)
@@ -29,24 +29,29 @@
 - Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
 - Mini RAG déployé : knowledge.txt injecté dans system prompt — knowledge.txt à enrichir si nouvelles infos association
 - test_rag.py : validation manuelle faite 2026-07-23, 3 réponses conformes — P2c clos
-- P2b : constante 0,3 L/requête choisie (borne prudente ; bornes documentées Google 0,26 ml / UC Riverside ~0,5 L) — implémentation reportée session suivante
+- P2b : implémenté en total cumulé (backend `/api/water-stats`), déployé sur Linux, 9,0 L déjà comptabilisés (30 messages historiques réels) — dernier fix de style (couleur/police) déployé, en attente de confirmation visuelle utilisateur
+- Cache Chromium : ne survit plus aux redéploiements grâce au header `Cache-Control: no-cache` sur index.html (avant : purge manuelle du cache nécessaire à chaque déploiement frontend)
 
-## Dernière session (2026-07-23 — session 18, suite)
+## Dernière session (2026-07-23 — session 18, suite 2)
 
 ### Décisions prises
-- P2c validé : les 3 réponses du test mini RAG sont conformes
-- Roadmap restructurée : Phase 4 = "Pré-déploiement" (P2b/P2c/P3), ancien "Déploiement pilote" devient Phase 5
-- P2b verrouillé : compteur dynamique (nb messages × 0,3 L), alternance périodique avec le disclaimer existant, label "estimation" dans l'UI
+- P2b : portée finale = total cumulé (jamais reset), pas un compteur par session — affiché sur Welcome ET dans le bandeau Chat
+- Fix Cache-Control no-cache sur index.html (bug de cache Chromium découvert en cours de session)
+- Style bandeau eau aligné sur le disclaimer existant (même couleur, même police italique)
 
 ### Livrables produits ou modifiés
-- `roadmap_robert-ia.md` : Phase 4 restructurée, P2c marqué [FAIT], plan détaillé P2b (Chat.jsx, Chat.css, tests, build, déploiement)
+- `backend/database.py`, `backend/main.py` : `count_user_messages()`, endpoint `GET /api/water-stats`, header no-cache
+- `frontend/src/utils/water.js` (nouveau), `App.jsx`, `Welcome.jsx`, `Chat.jsx` (+ CSS) : total cumulé fetché et affiché
+- `backend/tests/test_water_stats.py`, `frontend/src/tests/Chat.test.jsx` : tests ajoutés/mis à jour
+- Déployé sur Linux (scp + restart backend + kiosk relancé)
 
 ### Hypothèses validées / invalidées
-- VALIDE : test mini RAG conforme (Paris / horaires L'Invariable / refus météo)
-- VALIDE : implémentation P2b 100% frontend, aucune modification backend nécessaire
+- VALIDE : total cumulé fonctionnel en production (9,0 L, 30 messages historiques réels)
+- VALIDE : tests backend (14/15, 1 échec préexistant confirmé sans lien) et frontend passants
+- INVALIDE (auto-corrigée) : régression introduite sur Welcome.jsx (crash sans prop waterLiters) → fixée avant de conclure
 
 ### Prochaine étape exacte
-Implémenter P2b : Chat.jsx (constante + logique compteur + alternance bannière), Chat.css (style), tests, build frontend, déploiement scp + restart sur Linux, validation visuelle kiosk.
+Attendre confirmation visuelle de l'utilisateur sur le kiosk (style bandeau eau corrigé). Si OK → P2b clos → passer à P3 (retrait accès root SSH).
 
 ### Question bloquante pour la session suivante
 Aucune

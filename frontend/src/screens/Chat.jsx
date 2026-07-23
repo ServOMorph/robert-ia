@@ -1,14 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { formatLiters } from '../utils/water'
 import './Chat.css'
 
 const IDLE_TIMEOUT_MS = 10 * 60 * 1000
 const COUNTDOWN_SECONDS = 30
+const BANNER_INTERVAL_MS = 8000
 
 function generateSessionId() {
   return crypto.randomUUID()
 }
 
-export default function Chat({ pseudo, onEnd }) {
+export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
   const [sessionId] = useState(generateSessionId)
   const [messages, setMessages] = useState([
     {
@@ -20,8 +22,16 @@ export default function Chat({ pseudo, onEnd }) {
   const [loading, setLoading] = useState(false)
   const [showIdleModal, setShowIdleModal] = useState(false)
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS)
+  const [bannerMode, setBannerMode] = useState('disclaimer')
   const bottomRef = useRef(null)
   const lastActivityRef = useRef(Date.now())
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBannerMode((mode) => (mode === 'disclaimer' ? 'water' : 'disclaimer'))
+    }, BANNER_INTERVAL_MS)
+    return () => clearInterval(interval)
+  }, [])
 
   const resetActivity = useCallback(() => {
     lastActivityRef.current = Date.now()
@@ -62,6 +72,7 @@ export default function Chat({ pseudo, onEnd }) {
     setMessages((prev) => [...prev, { role: 'user', content: text }])
     setInput('')
     setLoading(true)
+    onMessageSent?.()
 
     setMessages((prev) => [...prev, { role: 'assistant', content: '' }])
 
@@ -143,7 +154,13 @@ export default function Chat({ pseudo, onEnd }) {
         <span className="chat-logo-initial">R</span>
         <div className="chat-header-info">
           <span className="chat-name">Robert</span>
-          <span className="chat-disclaimer">Robert peut faire des erreurs. Gardez votre esprit critique.</span>
+          {bannerMode === 'disclaimer' ? (
+            <span className="chat-disclaimer">Robert peut faire des erreurs. Gardez votre esprit critique.</span>
+          ) : (
+            <span className="chat-disclaimer">
+              💧 ~{formatLiters(waterLiters)} L d'eau économisés au total comparé à une IA en ligne (estimation)
+            </span>
+          )}
         </div>
         <button className="btn-secondary chat-end" onClick={onEnd} aria-label="Terminer la session">
           Terminer

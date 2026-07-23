@@ -1,3 +1,16 @@
+## v1.10 — 2026-07-23
+
+### Ajouté
+- `backend/main.py` : endpoint `GET /api/water-stats` — total cumulé de litres d'eau économisés (jamais remis à zéro), calculé depuis `robert.db`
+- `backend/database.py` : `count_user_messages()`
+- `frontend/src/utils/water.js` : constante `WATER_LITERS_PER_REQUEST` (0,3 L, estimation) et formatage partagés
+- `backend/tests/test_water_stats.py`, `frontend/src/tests/Chat.test.jsx` : tests du bandeau eau économisée
+
+### Modifié
+- `frontend/src/App.jsx`, `Welcome.jsx`, `Chat.jsx` (+ CSS) : bandeau eau économisée affiché sur l'écran d'accueil et dans le chat (total cumulé, pas un compteur de session) ; style du bandeau Chat aligné sur le disclaimer existant
+- `backend/main.py` : `Cache-Control: no-cache` sur `index.html` pour éviter qu'un ancien build reste servi depuis le cache du navigateur kiosk après déploiement
+- `roadmap_robert-ia.md`, `README.md` : P2b marqué quasi-terminé (validation visuelle finale en attente)
+
 ## v1.9 — 2026-07-23
 
 ### Modifié

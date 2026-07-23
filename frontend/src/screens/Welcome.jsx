@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { formatLiters } from '../utils/water'
 import './Welcome.css'
 
-export default function Welcome({ onConsent }) {
+export default function Welcome({ onConsent, waterLiters = 0 }) {
   const [accepted, setAccepted] = useState(false)
 
   return (
@@ -14,6 +15,10 @@ export default function Welcome({ onConsent }) {
         <h1 className="welcome-title">Robert</h1>
         <p className="welcome-subtitle">
           Votre assistant local, disponible sans connexion internet.
+        </p>
+
+        <p className="welcome-water">
+          💧 ~{formatLiters(waterLiters)} L d'eau économisés au total comparé à une IA en ligne (estimation)
         </p>
 
         <div className="rgpd-notice">

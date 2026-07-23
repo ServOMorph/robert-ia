@@ -46,38 +46,28 @@ Pré-requis à lever avant l'installation au Bistrot (signals P2b, P2c, P3).
 - [x] Récupération du log `test_rag_20260622_205007.txt` via SSH (hostname mDNS)
 - [x] Validation manuelle des 3 réponses (Paris / horaires L'Invariable / refus météo) — conformes 2026-07-23
 
-### P2b — Bandeau eau économisée [EN COURS]
+### P2b — Bandeau eau économisée [PRESQUE FAIT]
 
-Feature frontend uniquement. Le compteur se calcule côté client à partir des messages
-utilisateur de la session. Aucune modification backend. Sessions anonymes : le compteur
-repart de 0 à chaque nouvelle session (cohérent avec l'architecture existante).
+**Décision finale (révisée en cours de session, 2026-07-23) :** total cumulé jamais remis à
+zéro (pas un compteur par session comme prévu initialement), calculé côté backend à partir de
+`robert.db`, affiché à la fois sur l'écran d'accueil et dans le bandeau du chat.
 
-**Décisions verrouillées (2026-07-23) :**
-- Affichage : compteur dynamique, s'incrémente à chaque message envoyé
-- Emplacement : bandeau `chat-header`, en alternance périodique avec le disclaimer existant
-  (« Robert peut faire des erreurs… ») — le disclaimer n'est PAS supprimé
+- Backend : `GET /api/water-stats` (`database.count_user_messages()` × `WATER_LITERS_PER_REQUEST`)
 - Constante : `0,3 L par requête` (estimation prudente ; bornes documentées : Google 0,26 ml
   refroidissement direct seul / UC Riverside ~0,5 L refroidissement + production électrique)
-- Label « estimation » visible dans l'UI pour honnêteté
+- Frontend : `App.jsx` fetch le total au démarrage et l'incrémente localement à chaque message
+  envoyé ; transmis en props à `Welcome.jsx` et `Chat.jsx`
+- Bandeau Chat : alternance périodique avec le disclaimer existant, même style (couleur/police)
+- Label « estimation » visible dans l'UI
 
 **Étapes :**
-- [ ] `frontend/src/screens/Chat.jsx` :
-  - constante `WATER_LITERS_PER_REQUEST = 0.3` (commentaire : source + statut estimation)
-  - compteur = (nombre de messages `role: 'user'`) × constante
-  - état `bannerMode` alternant `'disclaimer'` ↔ `'water'` via `setInterval` (période ~8 s, constante nommée)
-  - rendu conditionnel dans `chat-header` : disclaimer OU ligne eau
-    (format `~X,X L` — 1 décimale, virgule française — + mention « estimation »)
-- [ ] `frontend/src/screens/Chat.css` :
-  - style de la ligne eau (icône goutte, couleur), transition douce sur l'alternance
-  - vérifier que la hauteur du bandeau ne saute pas entre les deux modes
-- [ ] Tests `frontend/src/tests/App.test.jsx` :
-  - présence du texte eau dans le bandeau
-  - incrémentation du compteur après envoi de N messages
-- [ ] Build : `npm run build` dans `frontend/` → `dist/`
-- [ ] Déploiement Linux (protocole Windows→Linux) :
-  - `scp` du `dist/` vers `/opt/robert-ia/app/frontend/dist/`
-  - `systemctl restart robert-ia` (purge cache statique) + vérification visuelle kiosk
-- [ ] Validation visuelle : alternance visible, compteur correct, label « estimation » présent
+- [x] `backend/database.py`, `backend/main.py` : `count_user_messages()`, endpoint `/api/water-stats`
+- [x] `frontend/src/utils/water.js` : constante + formatage partagés
+- [x] `frontend/src/App.jsx`, `Welcome.jsx`, `Chat.jsx` (+ CSS) : total fetché et affiché aux deux endroits
+- [x] Tests : `backend/tests/test_water_stats.py`, `frontend/src/tests/Chat.test.jsx` — passants
+- [x] Build + déploiement Linux (scp + restart backend + relance kiosk)
+- [x] Fix associé : `Cache-Control: no-cache` sur `index.html` (bug de cache Chromium découvert en cours de route)
+- [ ] Validation visuelle finale par l'utilisateur sur le kiosk (dernier fix de style déployé, retour en attente)
 
 ### P3 — Durcissement SSH [TODO]
 - [ ] `PermitRootLogin no` dans `sshd_config` + `systemctl restart ssh`

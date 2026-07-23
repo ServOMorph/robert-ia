@@ -45,6 +45,12 @@ def get_head(session_id: str, k: int = 4) -> list[dict]:
     return [{"id": r["id"], "role": r["role"], "content": r["content"]} for r in rows]
 
 
+def count_user_messages() -> int:
+    with get_connection() as conn:
+        row = conn.execute("SELECT COUNT(*) AS n FROM messages WHERE role = 'user'").fetchone()
+    return row["n"]
+
+
 def get_history(session_id: str, limit: int = 8) -> list[dict]:
     with get_connection() as conn:
         rows = conn.execute(
