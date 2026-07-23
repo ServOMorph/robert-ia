@@ -1,3 +1,10 @@
+## v1.9 — 2026-07-23
+
+### Modifié
+- `roadmap_robert-ia.md` : Phase 4 restructurée en "Pré-déploiement" (P2b/P2c/P3), ancien "Déploiement pilote" devient Phase 5 ; P2c marqué [FAIT] (test mini RAG validé) ; plan détaillé ajouté pour P2b (bandeau eau économisée)
+- `README.md` : section Roadmap alignée sur la nouvelle structure Phase 4/Phase 5
+- `_contexte/signals.md`, `_contexte/contexte.md` : P2c clos, P2b précisé (constante 0,3 L/requête), décision archivée (seuil 10 entrées)
+
 ## v1.8 — 2026-07-23
 
 ### Modifié

@@ -1,21 +1,18 @@
 # Signals — robert-ia   (MAJ 2026-07-23)
 
 ## Actions ouvertes
-- [P1] Phase 4 — Déploiement pilote Bistrot de Nérigean (en cours)
+- [P1] Phase 5 — Déploiement pilote Bistrot de Nérigean (à venir, après Phase 4)
   fait quand: installation terminée sur PC association + animateurs formés
-  réf: roadmap_robert-ia.md (Phase 4), _contexte/contexte.md
+  réf: roadmap_robert-ia.md (Phase 5), _contexte/contexte.md
 - [P2] TESTER protocole récupération + analyse conversations (end-to-end)
   fait quand: test réalisé sur PC Windows avec un vrai robert.db exporté depuis Linux via USB — CSV généré et lisible dans Excel
   réf: scripts/analyse_conversations.py, docs/GUIDE_RECUPERATION_ANALYSE.md, docs/PROTOCOLE_ANALYSE_CONVERSATIONS.md
-- [P2b] AVANT DÉPLOIEMENT : feature affichage eau économisée (Robert IA locale vs IA cloud) — mise en lumière aspect éco-responsable
-  fait quand: compteur eau visible dans l'UI (ex: fin de session ou écran accueil)
-  réf: frontend/src/, à préciser (calcul liters/request cloud vs local)
-- [P2c] AVANT DÉPLOIEMENT : valider manuellement les résultats du test mini RAG
-  fait quand: utilisateur confirme que les 3 réponses du test_rag.py sont conformes (culture générale / association / refus internet)
-  réf: scripts/test_rag.py, log Linux : /opt/robert-ia/app/logs/test_rag_20260622_205007.txt
+- [P2b] EN COURS : feature bandeau eau économisée — compteur dynamique, alternance avec le disclaimer, 0,3 L/requête (estimation)
+  fait quand: Chat.jsx/Chat.css implémentés + tests passants + build + déployé sur Linux (scp + restart) + validation visuelle kiosk
+  réf: roadmap_robert-ia.md (Phase 4 > P2b, plan détaillé), frontend/src/screens/Chat.jsx, Chat.css
 - [P3] AVANT DÉPLOIEMENT SITE : retirer l'accès root SSH du PC Linux (accès root accordé temporairement pour la phase dev)
   fait quand: `PermitRootLogin no` dans sshd_config + service redémarré + accès root vérifié refusé
-  réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519)
+  réf: contexte.md (accès SSH root actif, clé robert-ia_ed25519), roadmap_robert-ia.md (Phase 4 > P3)
 
 ## Questions ouvertes
 
@@ -31,24 +28,25 @@
 - Protocole récupération : robert.db récupéré via SSH + CSV généré — test USB + vérification Excel restants
 - Lenteur 1er prompt (~5 min sur i3-4130) = contrainte matérielle, gérée par formation
 - Mini RAG déployé : knowledge.txt injecté dans system prompt — knowledge.txt à enrichir si nouvelles infos association
-- test_rag.py déployé sur Linux — log test du 2026-06-22 : /opt/robert-ia/app/logs/test_rag_20260622_205007.txt — validation manuelle encore à faire
+- test_rag.py : validation manuelle faite 2026-07-23, 3 réponses conformes — P2c clos
+- P2b : constante 0,3 L/requête choisie (borne prudente ; bornes documentées Google 0,26 ml / UC Riverside ~0,5 L) — implémentation reportée session suivante
 
-## Dernière session (2026-07-23 — session 18)
+## Dernière session (2026-07-23 — session 18, suite)
 
 ### Décisions prises
-- Réseau Windows↔Linux migré du partage ICS (192.168.137.x) vers switch/Freebox (192.168.1.x) — SSH/scp utilisent désormais le hostname mDNS `robert-ia-H81M-S2PV.local` plutôt qu'une IP en dur
+- P2c validé : les 3 réponses du test mini RAG sont conformes
+- Roadmap restructurée : Phase 4 = "Pré-déploiement" (P2b/P2c/P3), ancien "Déploiement pilote" devient Phase 5
+- P2b verrouillé : compteur dynamique (nb messages × 0,3 L), alternance périodique avec le disclaimer existant, label "estimation" dans l'UI
 
 ### Livrables produits ou modifiés
-- `.claude/CLAUDE.md` : IP remplacée par hostname mDNS (sections synchro Windows→Linux, contrôle SSH)
-- `docs/CONTROLE_SSH_CLAUDE.md` : IP remplacée par hostname mDNS, troubleshooting mis à jour
-- `_contexte/signals.md`, `_contexte/contexte.md` : contexte réseau mis à jour
+- `roadmap_robert-ia.md` : Phase 4 restructurée, P2c marqué [FAIT], plan détaillé P2b (Chat.jsx, Chat.css, tests, build, déploiement)
 
 ### Hypothèses validées / invalidées
-- VALIDE : connexion SSH fonctionnelle via `robert-ia-H81M-S2PV.local` (résolution mDNS confirmée)
-- EN ATTENTE : validation manuelle des 3 réponses du test_rag.py (P2c) — log pas encore récupéré cette session
+- VALIDE : test mini RAG conforme (Paris / horaires L'Invariable / refus météo)
+- VALIDE : implémentation P2b 100% frontend, aucune modification backend nécessaire
 
 ### Prochaine étape exacte
-Récupérer le log `test_rag_20260622_205007.txt` via SSH (hostname mDNS) et faire valider les 3 réponses par l'utilisateur. Si OK → P2c fermé → passer à P2b (feature eau économisée).
+Implémenter P2b : Chat.jsx (constante + logique compteur + alternance bannière), Chat.css (style), tests, build frontend, déploiement scp + restart sur Linux, validation visuelle kiosk.
 
 ### Question bloquante pour la session suivante
 Aucune

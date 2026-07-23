@@ -1,5 +1,9 @@
 # Archive — Décisions structurantes robert-ia
 
+Archivé le 2026-07-23, session 18 suite (dépassement seuil 10 entrées dans contexte.md)
+
+- 2026-06-21 : OS réel = GNOME Shell / Wayland (Ubuntu 24.04 par défaut, pas XFCE) — fond d'écran via gsettings
+
 Archivé le 2026-07-23 (dépassement seuil 10 entrées dans contexte.md)
 
 - 2026-06-20 : GDM3 auto-login robert-ia + accès root SSH temporaire Windows→Linux pour dev
