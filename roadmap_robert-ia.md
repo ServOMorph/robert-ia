@@ -38,7 +38,7 @@ Créée le : 2026-06-18
 
 ---
 
-## Phase 4 — Déploiement pilote [TODO]
+## Phase 4 — Déploiement pilote [EN COURS]
 - [ ] Installation sur le PC de l'association (Bistrot de Nérigean)
 - [ ] Formation animateurs
 - [ ] Visite de suivi J+15 : récupération SQLite + analyse retours

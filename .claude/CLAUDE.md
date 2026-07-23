@@ -87,7 +87,7 @@ Section réservée aux règles propres à ce projet, hors périmètre du kit. Ce
 
 **Séquence à respecter :**
 1. Modifier le fichier dans le projet Windows
-2. Copier sur Linux via `scp -i "C:\Users\raph6\.ssh\robert-ia_ed25519" "<chemin_windows>" root@192.168.137.85:"<chemin_linux>"`
+2. Copier sur Linux via `scp -i "C:\Users\raph6\.ssh\robert-ia_ed25519" "<chemin_windows>" root@robert-ia-H81M-S2PV.local:"<chemin_linux>"`
 3. Redémarrer le service si nécessaire (`systemctl restart robert-ia`)
 
 **Exception :** les actions sans fichier associé (redémarrages, lecture de logs, diagnostic RAM) s'exécutent directement via SSH.
@@ -98,11 +98,11 @@ Quand une tâche concerne le PC Linux (services systemd, fichiers de config, RAM
 
 **Connexion :**
 ```powershell
-ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@192.168.137.85 "commande"
+ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@robert-ia-H81M-S2PV.local "commande"
 ```
 
 **Règles :**
-- Vérifier la connectivité avant d'exécuter (`ping 192.168.137.85 -n 1`)
+- Vérifier la connectivité avant d'exécuter (`ping robert-ia-H81M-S2PV.local -n 1`)
 - Lire le retour de chaque commande et en tenir compte avant la suivante
 - Ne pas utiliser de commandes interactives (nano, vim, htop)
 - Pour les fichiers multi-lignes : passer par `cat > fichier << 'EOF'` ou écrire localement puis `scp`

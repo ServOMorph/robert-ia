@@ -1,5 +1,9 @@
 # Archive — Décisions structurantes robert-ia
 
+Archivé le 2026-07-23 (dépassement seuil 10 entrées dans contexte.md)
+
+- 2026-06-20 : GDM3 auto-login robert-ia + accès root SSH temporaire Windows→Linux pour dev
+
 Archivé le 2026-06-22 (dépassement seuil 10 entrées dans contexte.md)
 
 - 2026-06-20 : Architecture mémoire — tête épinglée K=4 + fenêtre glissante 16 + system prompt enrichi → 18/20

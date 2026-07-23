@@ -8,10 +8,12 @@ Permet à Claude Code (tournant sur le PC Windows) d'exécuter des commandes dir
 
 | Élément | Valeur |
 |---|---|
-| IP du PC Linux | `192.168.137.85` |
+| Hostname du PC Linux (mDNS) | `robert-ia-H81M-S2PV.local` |
 | Utilisateur SSH | `root` |
 | Clé privée SSH | `C:\Users\raph6\.ssh\robert-ia_ed25519` |
 | Accès root SSH | Actif (`PermitRootLogin yes` dans sshd_config) |
+
+> Le hostname mDNS (`.local`, via Avahi) est utilisé plutôt que l'IP DHCP, qui peut changer selon le réseau (ancien partage ICS `192.168.137.x`, désormais switch/Freebox `192.168.1.x`).
 
 > **Note :** L'accès root SSH est temporaire (phase dev). Le désactiver avant déploiement final (voir signal P3 dans `_contexte/signals.md`).
 
@@ -19,11 +21,11 @@ Permet à Claude Code (tournant sur le PC Windows) d'exécuter des commandes dir
 
 ## Condition préalable à chaque session
 
-Les deux PC doivent être sur le même réseau local. La connexion passe par le partage de connexion Windows (192.168.137.x).
+Les deux PC doivent être sur le même réseau local (actuellement via switch/Freebox).
 
 **Vérifier que le Linux est joignable :**
 ```
-ping 192.168.137.85
+ping robert-ia-H81M-S2PV.local
 ```
 → Si pas de réponse : vérifier que le PC Linux est allumé et connecté au réseau Windows.
 
@@ -53,7 +55,7 @@ Claude Code dispose des outils pour exécuter des commandes SSH depuis ce projet
 ## Commande SSH de référence (pour vérification manuelle)
 
 ```powershell
-ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@192.168.137.85 "commande"
+ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@robert-ia-H81M-S2PV.local "commande"
 ```
 
 ---
@@ -72,5 +74,5 @@ ssh -i "C:\Users\raph6\.ssh\robert-ia_ed25519" -o StrictHostKeyChecking=no root@
 |---|---|---|
 | `Connection refused` | SSH non démarré sur Linux | `sudo systemctl start ssh` depuis le Linux |
 | `Permission denied` | Mauvaise clé ou clé non autorisée | Vérifier `/root/.ssh/authorized_keys` sur Linux |
-| `No route to host` | Linux pas sur le réseau | Vérifier le partage de connexion Windows |
-| Timeout | IP changée | Vérifier l'IP avec `ip a` sur Linux |
+| `No route to host` | Linux pas sur le réseau | Vérifier le câblage / switch |
+| Timeout | mDNS non résolu | Vérifier Avahi sur Linux, ou lire l'IP avec `ip a` |

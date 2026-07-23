@@ -1,3 +1,10 @@
+## v1.8 — 2026-07-23
+
+### Modifié
+- `.claude/CLAUDE.md`, `docs/CONTROLE_SSH_CLAUDE.md` : IP fixe remplacée par hostname mDNS (`robert-ia-H81M-S2PV.local`) pour la connexion SSH/scp Windows→Linux, suite au passage du partage ICS à un switch/Freebox
+- `_contexte/signals.md`, `_contexte/contexte.md` : contexte réseau mis à jour, décision archivée (seuil 10 entrées)
+- `roadmap_robert-ia.md` : Phase 4 marquée [EN COURS] (cohérence avec signals.md)
+
 ## v1.7 — 2026-07-21
 
 ### Modifié
