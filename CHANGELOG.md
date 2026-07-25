@@ -1,3 +1,13 @@
+## v1.16 — 2026-07-25
+
+### Ajouté
+- Suggestions de questions cliquables sur l'écran de chat : `GET /api/suggestions`, 3 questions par contexte (`backend/contexts/<nom>.suggestions.txt`), disparaissent après le premier message envoyé
+- `.claude/memory.md` : contrôle du kiosk Linux via SSH (Bash tool obligatoire, motif `pgrep`/`pkill` correct)
+
+### Corrigé
+- Roadmap : le pilote Phase 5 est une borne mobile démarrée au Moulin du Sud, et non fixée au Bistrot de Nérigean comme indiqué précédemment
+- Assets orphelins supprimés sur le Linux (`/opt/robert-ia/app/frontend/dist/assets/`)
+
 ## v1.15 — 2026-07-25
 
 ### Corrigé

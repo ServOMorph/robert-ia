@@ -91,7 +91,7 @@ Ouvrez votre navigateur sur l'adresse indiquée par Vite (généralement `http:/
 * **Phase 2** ✅ : Interface de chat (Welcome/RGPD, choix du Pseudo, Chat), historique SQLite local, streaming NDJSON.
 * **Phase 3** ✅ : Compilations statiques, empaquetage air-gap, configuration du service systemd de Kiosk, script d'export.
 * **Phase 4** ✅ : Pré-déploiement. Mini-RAG avec `knowledge.txt` (L'Invariable) testé et validé, bandeau eau économisée (total cumulé depuis la mise en service) validé visuellement, accès root SSH désactivé (user dédié + sudo NOPASSWD).
-* **Phase 5 [EN COURS]** : Déploiement pilote au *Bistrot de Nérigean* — écran d'accueil (badge eau + modale) validé sur le kiosk réel, reste : installation, formation des animateurs, visite de suivi J+15.
+* **Phase 5 [EN COURS]** : Déploiement pilote sur borne mobile, démarrée au *Moulin du Sud* — écran d'accueil (badge eau + modale) et suggestions de questions cliquables validés/déployés, reste : installation, formation des animateurs, visite de suivi J+15.
 
 Pour plus de détails, consultez la feuille de route complète : [roadmap_robert-ia.md](roadmap_robert-ia.md).
 

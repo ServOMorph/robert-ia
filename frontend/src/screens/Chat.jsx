@@ -23,8 +23,16 @@ export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
   const [showIdleModal, setShowIdleModal] = useState(false)
   const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS)
   const [bannerMode, setBannerMode] = useState('disclaimer')
+  const [suggestions, setSuggestions] = useState([])
   const bottomRef = useRef(null)
   const lastActivityRef = useRef(Date.now())
+
+  useEffect(() => {
+    fetch('/api/suggestions')
+      .then((res) => res.json())
+      .then((data) => setSuggestions(data.suggestions ?? []))
+      .catch(() => {})
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,12 +71,12 @@ export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
     bottomRef.current?.scrollIntoView?.({ behavior: 'smooth' })
   }, [messages])
 
-  const sendMessage = async (e) => {
-    e.preventDefault()
-    const text = input.trim()
+  const submitMessage = async (raw) => {
+    const text = raw.trim()
     if (!text || loading) return
 
     lastActivityRef.current = Date.now()
+    setSuggestions([])
     setMessages((prev) => [...prev, { role: 'user', content: text }])
     setInput('')
     setLoading(true)
@@ -135,6 +143,16 @@ export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
     }
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    submitMessage(input)
+  }
+
+  const handleSuggestion = (question) => {
+    setInput('')
+    submitMessage(question)
+  }
+
   return (
     <div className="chat-screen">
       {showIdleModal && (
@@ -173,6 +191,21 @@ export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
             <div className="message-bubble">{msg.content}</div>
           </div>
         ))}
+        {suggestions.length > 0 && messages.length === 1 && (
+          <div className="chat-suggestions" aria-label="Suggestions de questions">
+            {suggestions.map((question) => (
+              <button
+                key={question}
+                type="button"
+                className="chat-suggestion"
+                onClick={() => handleSuggestion(question)}
+                disabled={loading}
+              >
+                {question}
+              </button>
+            ))}
+          </div>
+        )}
         {loading && (
           <div className="message message--assistant">
             <div className="message-bubble message-bubble--typing">
@@ -185,7 +218,7 @@ export default function Chat({ pseudo, onEnd, waterLiters, onMessageSent }) {
         <div ref={bottomRef} />
       </main>
 
-      <form className="chat-form" onSubmit={sendMessage}>
+      <form className="chat-form" onSubmit={handleSubmit}>
         <input
           type="text"
           className="chat-input"

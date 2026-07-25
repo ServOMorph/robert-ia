@@ -23,7 +23,16 @@ def load_context(name: str):
     fields = {key.strip(): value.strip() for key, value in fields.items()}
     return fields, body.strip()
 
+def load_suggestions(name: str):
+    path = os.path.join(CONTEXTS_DIR, f"{name}.suggestions.txt")
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as f:
+        lines = [line.strip() for line in f]
+    return [line for line in lines if line and not line.startswith("#")]
+
 CONTEXT_FIELDS, CONTEXT_KNOWLEDGE = load_context(CONTEXT_NAME)
+CONTEXT_SUGGESTIONS = load_suggestions(CONTEXT_NAME)
 SYSTEM_PROMPT = build_system_prompt(
     CONTEXT_FIELDS["nom"], CONTEXT_FIELDS["lieu"], CONTEXT_FIELDS["type"], CONTEXT_KNOWLEDGE
 )
@@ -78,6 +87,11 @@ def health():
 @app.get("/api/water-stats")
 def water_stats():
     return {"liters": round(count_user_messages() * WATER_LITERS_PER_REQUEST, 1)}
+
+
+@app.get("/api/suggestions")
+def suggestions():
+    return {"suggestions": CONTEXT_SUGGESTIONS}
 
 
 @app.get("/api/ready")

@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) prête à démarrer — badge eau économisée + modale "Plus d'infos" validés visuellement sur le kiosk réel. Contexte de production confirmé sur `ROBERT_CONTEXT=moulin_du_sud` (décision explicite, pas de bascule vers `invariable`). Suite de tests frontend intégralement verte (17/17). Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`). Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD).
+Phases 1–4 complètes. Phase 5 "Déploiement pilote" — borne mobile, démarrée au Moulin du Sud (`ROBERT_CONTEXT=moulin_du_sud`), prête à installer. Badge eau, modale "Plus d'infos" et suggestions de questions cliquables (3 par contexte) validés/déployés en prod, kiosk vérifié stable. Suite de tests frontend intégralement verte (20/20). Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`). Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD).
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-07-23 : Réseau Windows↔Linux migré du partage ICS (192.168.137.x) vers switch/Freebox (192.168.1.x) — SSH/scp utilisent le hostname mDNS `robert-ia-H81M-S2PV.local` plutôt qu'une IP en dur
@@ -26,3 +26,4 @@ Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) pr
 - 2026-07-25 : Contexte de production confirmé sur `moulin_du_sud` (pas de bascule vers `invariable` avant Phase 5)
 - 2026-07-25 : Bandeau eau économisée refondu en badge dédié + bouton "Plus d'infos" ouvrant une modale explicative sur la méthode d'estimation
 - 2026-07-25 : Badge eau + modale validés visuellement sur le kiosk réel — Phase 5 débloquée ; bug `App.test.jsx` corrigé (tests rendaient `<App/>` sans mocker le fetch de `/api/ready`)
+- 2026-07-25 : Suggestions de questions cliquables ajoutées à l'écran de chat (`GET /api/suggestions`, 3 par contexte, disparaissent après le premier message) ; pilote confirmé comme borne mobile démarrant au Moulin du Sud (roadmap corrigée, elle indiquait Bistrot de Nérigean)
