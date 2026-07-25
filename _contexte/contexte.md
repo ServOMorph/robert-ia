@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`) : `invariable` (Nérigean) et `moulin_du_sud` (Génissac) disponibles. Bandeau eau économisée (total cumulé) validé visuellement en production. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD) sur hostname mDNS `robert-ia-H81M-S2PV.local`. **Attention : prod actuellement sur `ROBERT_CONTEXT=moulin_du_sud`, pas `invariable`.**
+Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Branche `v1.1` mergée dans `main` (fast-forward, poussée sur le remote). Version app affichée dynamiquement sur l'écran d'accueil depuis `package.json` (actuellement `1.1.0`), frontend rebuild et redéployé sur Linux. Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`) : `invariable` (Nérigean) et `moulin_du_sud` (Génissac) disponibles. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD). **Attention : prod actuellement sur `ROBERT_CONTEXT=moulin_du_sud`, pas `invariable`.**
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
@@ -27,3 +27,4 @@ Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à
 - 2026-07-23 : Fix `Cache-Control: no-cache` sur index.html — évite que Chromium reste figé sur un ancien build après déploiement (bug découvert lors du debug kiosk)
 - 2026-07-25 : P3 finalisé — `PermitRootLogin no`, user `robert-ia` + sudo NOPASSWD:ALL pour préserver le contrôle SSH automatique de Claude Code (commandes CLAUDE.md mises à jour)
 - 2026-07-25 : Mini RAG remplacé par système multi-contextes — `backend/contexts/<nom>.txt` (champs nom/lieu/type + connaissance), sélection via `ROBERT_CONTEXT`, gabarit de prompt générique dans `prompt.py`
+- 2026-07-25 : Version app affichée dynamiquement sur l'écran d'accueil (`vite.config.js` define depuis `package.json`) — évite toute valeur codée en dur, se met à jour automatiquement à chaque bump

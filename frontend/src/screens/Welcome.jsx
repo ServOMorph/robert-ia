@@ -53,6 +53,7 @@ export default function Welcome({ onConsent, waterLiters = 0 }) {
       <p className="welcome-disclaimer">
         Robert est une expérimentation. Cette version tourne sur un ordinateur de récupération, sans connexion internet. Les réponses peuvent être lentes ou imparfaites — c'est normal, c'est un début.
       </p>
+      <p className="welcome-version">v{__APP_VERSION__}</p>
     </div>
   )
 }

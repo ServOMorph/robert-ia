@@ -1,3 +1,13 @@
+## v1.13 — 2026-07-25
+
+### Ajouté
+- Affichage de la version du projet sur l'écran d'accueil, générée dynamiquement depuis `frontend/package.json` (`define: __APP_VERSION__` dans `vite.config.js`) — pas de valeur codée en dur
+
+### Modifié
+- Merge fast-forward de la branche `v1.1` dans `main`, poussé sur le remote GitHub
+- `frontend/package.json` : version `1.0.0` → `1.1.0` suite au merge
+- Frontend rebuild et redéployé sur le Linux (`/opt/robert-ia/app/frontend/dist/`)
+
 ## v1.12 — 2026-07-25
 
 ### Ajouté
