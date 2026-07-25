@@ -79,7 +79,7 @@ zéro (pas un compteur par session comme prévu initialement), calculé côté b
 ---
 
 ## Phase 5 — Déploiement pilote [EN COURS]
-- [ ] Tester l'écran d'accueil (badge eau + modale "plus d'infos") sur le kiosk en conditions réelles
+- [x] Tester l'écran d'accueil (badge eau + modale "plus d'infos") sur le kiosk en conditions réelles
 - [ ] Installation sur le PC de l'association (Bistrot de Nérigean)
 - [ ] Formation animateurs
 - [ ] Visite de suivi J+15 : récupération SQLite + analyse retours

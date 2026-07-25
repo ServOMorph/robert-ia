@@ -1,5 +1,10 @@
 # Archive — Décisions structurantes robert-ia
 
+Archivé le 2026-07-25, session 23 (dépassement seuil 10 entrées dans contexte.md)
+
+- 2026-06-22 : Claude Code prend le contrôle SSH du Linux automatiquement (instruction dans .claude/CLAUDE.md)
+- 2026-06-22 : Protocole Windows→Linux — toute modification fichier applicatif faite sur Windows d'abord, puis déployée via scp (instruction dans .claude/CLAUDE.md)
+
 Archivé le 2026-07-25, session 22 (dépassement seuil 10 entrées dans contexte.md)
 
 - 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique

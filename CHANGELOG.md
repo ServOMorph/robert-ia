@@ -1,3 +1,11 @@
+## v1.15 — 2026-07-25
+
+### Corrigé
+- `frontend/src/tests/App.test.jsx` : les 3 tests échouaient car ils ne mockaient pas `fetch` et n'attendaient pas la transition asynchrone Loading → Welcome (setTimeout 1s + appel `/api/ready`) avant de faire leurs assertions — mock ajouté + `waitFor`
+
+### Validé
+- Badge eau économisée + modale "Plus d'infos" de l'écran d'accueil confirmés visuellement sur le kiosk réel (Linux/Chromium) — débloque la Phase 5
+
 ## v1.14 — 2026-07-25
 
 ### Ajouté
