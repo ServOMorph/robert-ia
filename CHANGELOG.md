@@ -1,3 +1,11 @@
+## v1.11 — 2026-07-25
+
+### Modifié
+- Validation visuelle finale du bandeau eau économisée par l'utilisateur sur le kiosk — P2b clos
+- Accès root SSH désactivé (`PermitRootLogin no`) sur le PC Linux ; user `robert-ia` + sudo NOPASSWD:ALL (`/etc/sudoers.d/robert-ia-nopasswd`) pour préserver le contrôle SSH automatique de Claude Code — P3 clos, Phase 4 entièrement terminée
+- `.claude/CLAUDE.md` : commandes SSH/scp mises à jour (`robert-ia@...` au lieu de `root@...`), note sudo ajoutée
+- `roadmap_robert-ia.md`, `README.md` : Phase 4 marquée terminée, Phase 5 (déploiement pilote) démarrée
+
 ## v1.10 — 2026-07-23
 
 ### Ajouté

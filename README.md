@@ -90,8 +90,8 @@ Ouvrez votre navigateur sur l'adresse indiquée par Vite (généralement `http:/
 * **Phase 1** ✅ : Initialisation de la structure du projet, configuration de l'environnement de dev, dépôt public.
 * **Phase 2** ✅ : Interface de chat (Welcome/RGPD, choix du Pseudo, Chat), historique SQLite local, streaming NDJSON.
 * **Phase 3** ✅ : Compilations statiques, empaquetage air-gap, configuration du service systemd de Kiosk, script d'export.
-* **Phase 4 [EN COURS]** : Pré-déploiement. Mini-RAG avec `knowledge.txt` (L'Invariable) testé et validé, bandeau eau économisée implémenté (total cumulé depuis la mise en service, comparaison impact écologique local vs cloud), suppression à venir de l'accès root SSH.
-* **Phase 5 [TODO]** : Déploiement pilote au *Bistrot de Nérigean* — installation, formation des animateurs, visite de suivi J+15.
+* **Phase 4** ✅ : Pré-déploiement. Mini-RAG avec `knowledge.txt` (L'Invariable) testé et validé, bandeau eau économisée (total cumulé depuis la mise en service) validé visuellement, accès root SSH désactivé (user dédié + sudo NOPASSWD).
+* **Phase 5 [EN COURS]** : Déploiement pilote au *Bistrot de Nérigean* — installation, formation des animateurs, visite de suivi J+15.
 
 Pour plus de détails, consultez la feuille de route complète : [roadmap_robert-ia.md](roadmap_robert-ia.md).
 

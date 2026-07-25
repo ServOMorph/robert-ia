@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–3 complètes. Phase 4 "Pré-déploiement" en cours (P2c fait, P2b quasi-fini en attente de validation visuelle finale, P3 à faire) ; Phase 5 "Déploiement pilote" à suivre. Mini RAG déployé et validé. Réseau Windows↔Linux via switch/Freebox, SSH/scp par hostname mDNS `robert-ia-H81M-S2PV.local`. P2b (bandeau eau économisée) implémenté : total cumulé (jamais remis à zéro) calculé côté backend, affiché sur l'accueil et dans le chat.
+Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Mini RAG déployé et validé. Bandeau eau économisée (total cumulé) validé visuellement en production. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD) sur hostname mDNS `robert-ia-H81M-S2PV.local`.
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
@@ -26,3 +26,4 @@ Phases 1–3 complètes. Phase 4 "Pré-déploiement" en cours (P2c fait, P2b qua
 - 2026-07-23 : Réseau Windows↔Linux migré du partage ICS (192.168.137.x) vers switch/Freebox (192.168.1.x) — SSH/scp utilisent le hostname mDNS `robert-ia-H81M-S2PV.local` plutôt qu'une IP en dur
 - 2026-07-23 : P2b finalisé — total cumulé (jamais reset) plutôt que compteur par session : `GET /api/water-stats` compte les messages user en base, affiché sur Welcome + bandeau Chat (style aligné sur le disclaimer)
 - 2026-07-23 : Fix `Cache-Control: no-cache` sur index.html — évite que Chromium reste figé sur un ancien build après déploiement (bug découvert lors du debug kiosk)
+- 2026-07-25 : P3 finalisé — `PermitRootLogin no`, user `robert-ia` + sudo NOPASSWD:ALL pour préserver le contrôle SSH automatique de Claude Code (commandes CLAUDE.md mises à jour)

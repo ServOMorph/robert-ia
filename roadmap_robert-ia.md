@@ -38,7 +38,7 @@ Créée le : 2026-06-18
 
 ---
 
-## Phase 4 — Pré-déploiement [EN COURS]
+## Phase 4 — Pré-déploiement [DONE]
 
 Pré-requis à lever avant l'installation au Bistrot (signals P2b, P2c, P3).
 
@@ -46,7 +46,7 @@ Pré-requis à lever avant l'installation au Bistrot (signals P2b, P2c, P3).
 - [x] Récupération du log `test_rag_20260622_205007.txt` via SSH (hostname mDNS)
 - [x] Validation manuelle des 3 réponses (Paris / horaires L'Invariable / refus météo) — conformes 2026-07-23
 
-### P2b — Bandeau eau économisée [PRESQUE FAIT]
+### P2b — Bandeau eau économisée [FAIT]
 
 **Décision finale (révisée en cours de session, 2026-07-23) :** total cumulé jamais remis à
 zéro (pas un compteur par session comme prévu initialement), calculé côté backend à partir de
@@ -67,17 +67,18 @@ zéro (pas un compteur par session comme prévu initialement), calculé côté b
 - [x] Tests : `backend/tests/test_water_stats.py`, `frontend/src/tests/Chat.test.jsx` — passants
 - [x] Build + déploiement Linux (scp + restart backend + relance kiosk)
 - [x] Fix associé : `Cache-Control: no-cache` sur `index.html` (bug de cache Chromium découvert en cours de route)
-- [ ] Validation visuelle finale par l'utilisateur sur le kiosk (dernier fix de style déployé, retour en attente)
+- [x] Validation visuelle finale par l'utilisateur sur le kiosk
 
-### P3 — Durcissement SSH [TODO]
-- [ ] `PermitRootLogin no` dans `sshd_config` + `systemctl restart ssh`
-- [ ] Vérifier que l'accès root SSH est bien refusé
+### P3 — Durcissement SSH [FAIT]
+- [x] `PermitRootLogin no` dans `sshd_config` + `systemctl restart ssh`
+- [x] Vérifier que l'accès root SSH est bien refusé
+- [x] Configurer sudo NOPASSWD:ALL pour user `robert-ia` (préserver le contrôle SSH automatique) + mettre à jour `.claude/CLAUDE.md`
 
 **⏸ Checkpoint** — Demander à l'utilisateur de faire `/compact` avant de continuer. Attendre sa réponse écrite. Ne pas commencer la phase suivante sans confirmation.
 
 ---
 
-## Phase 5 — Déploiement pilote [TODO]
+## Phase 5 — Déploiement pilote [EN COURS]
 - [ ] Installation sur le PC de l'association (Bistrot de Nérigean)
 - [ ] Formation animateurs
 - [ ] Visite de suivi J+15 : récupération SQLite + analyse retours
