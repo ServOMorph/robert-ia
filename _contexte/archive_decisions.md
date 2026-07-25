@@ -1,5 +1,11 @@
 # Archive — Décisions structurantes robert-ia
 
+Archivé le 2026-07-25, session 22 (dépassement seuil 10 entrées dans contexte.md)
+
+- 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
+- 2026-06-21 : RustDesk autostart via rustdesk.service (enabled, multi-user.target) — daemon-reload requis après màj fichier service
+- 2026-06-21 : Frontend déployé dans /opt/robert-ia/app/frontend/dist/ (pas /opt/robert-ia/frontend/dist/)
+
 Archivé le 2026-07-23, session 18 suite (dépassement seuil 10 entrées dans contexte.md)
 
 - 2026-06-21 : OS réel = GNOME Shell / Wayland (Ubuntu 24.04 par défaut, pas XFCE) — fond d'écran via gsettings

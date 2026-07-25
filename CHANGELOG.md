@@ -1,3 +1,14 @@
+## v1.14 — 2026-07-25
+
+### Ajouté
+- Bouton "Plus d'infos" sur le bandeau eau économisée de l'écran d'accueil, ouvrant une modale expliquant la méthode d'estimation (0,3 L/message, bornes Google/UC Riverside)
+
+### Modifié
+- Bandeau eau économisée refondu en badge visuel dédié (fond/bordure/couleur `--water-*`, clair et sombre) au lieu d'une simple ligne de texte peu lisible
+- `frontend/src/styles/variables.css` : ajout des tokens `--water-bg`, `--water-border`, `--water-accent`
+- Contexte de production confirmé sur `moulin_du_sud` (décision explicite, close l'action ouverte de vérification)
+- Frontend rebuild et redéployé sur le Linux (`/opt/robert-ia/app/frontend/dist/`)
+
 ## v1.13 — 2026-07-25
 
 ### Ajouté

@@ -14,12 +14,9 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Branche `v1.1` mergée dans `main` (fast-forward, poussée sur le remote). Version app affichée dynamiquement sur l'écran d'accueil depuis `package.json` (actuellement `1.1.0`), frontend rebuild et redéployé sur Linux. Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`) : `invariable` (Nérigean) et `moulin_du_sud` (Génissac) disponibles. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD). **Attention : prod actuellement sur `ROBERT_CONTEXT=moulin_du_sud`, pas `invariable`.**
+Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Contexte de production confirmé sur `ROBERT_CONTEXT=moulin_du_sud` (décision explicite, pas de bascule vers `invariable`). Écran d'accueil : bandeau eau économisée refondu en badge visuel dédié avec bouton "Plus d'infos" (modale explicative), déployé sur Linux mais pas encore testé en conditions réelles sur le kiosk. Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`). Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD).
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
-- 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
-- 2026-06-21 : RustDesk autostart via rustdesk.service (enabled, multi-user.target) — daemon-reload requis après màj fichier service
-- 2026-06-21 : Frontend déployé dans /opt/robert-ia/app/frontend/dist/ (pas /opt/robert-ia/frontend/dist/)
 - 2026-06-22 : Claude Code prend le contrôle SSH du Linux automatiquement (instruction dans .claude/CLAUDE.md)
 - 2026-06-22 : Protocole Windows→Linux — toute modification fichier applicatif faite sur Windows d'abord, puis déployée via scp (instruction dans .claude/CLAUDE.md)
 - 2026-07-23 : Réseau Windows↔Linux migré du partage ICS (192.168.137.x) vers switch/Freebox (192.168.1.x) — SSH/scp utilisent le hostname mDNS `robert-ia-H81M-S2PV.local` plutôt qu'une IP en dur
@@ -28,3 +25,5 @@ Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à
 - 2026-07-25 : P3 finalisé — `PermitRootLogin no`, user `robert-ia` + sudo NOPASSWD:ALL pour préserver le contrôle SSH automatique de Claude Code (commandes CLAUDE.md mises à jour)
 - 2026-07-25 : Mini RAG remplacé par système multi-contextes — `backend/contexts/<nom>.txt` (champs nom/lieu/type + connaissance), sélection via `ROBERT_CONTEXT`, gabarit de prompt générique dans `prompt.py`
 - 2026-07-25 : Version app affichée dynamiquement sur l'écran d'accueil (`vite.config.js` define depuis `package.json`) — évite toute valeur codée en dur, se met à jour automatiquement à chaque bump
+- 2026-07-25 : Contexte de production confirmé sur `moulin_du_sud` (pas de bascule vers `invariable` avant Phase 5)
+- 2026-07-25 : Bandeau eau économisée refondu en badge dédié + bouton "Plus d'infos" ouvrant une modale explicative sur la méthode d'estimation
