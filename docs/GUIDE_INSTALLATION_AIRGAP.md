@@ -317,7 +317,7 @@ sqlite3 /opt/robert-ia/data/robert.db ".recover" | sqlite3 /tmp/robert_fixed.db
 sudo cp /tmp/robert_fixed.db /opt/robert-ia/data/robert.db
 ```
 
-### Problème: Port 8000 déjà occupé
+### Problème: Port 8001 déjà occupé
 ```bash
 # Trouver le processus
 lsof -i :8001
@@ -325,7 +325,7 @@ lsof -i :8001
 # Tuer le processus (si besoin)
 sudo kill -9 <PID>
 
-# Ou changer le port dans main.py
+# Ou changer le port dans scripts/start-backend.sh
 ```
 
 ---

@@ -119,7 +119,7 @@ Pour récupérer les données :
 ## Troubleshooting
 - Si le navigateur ne se lance pas : vérifier que `firefox` est installé
 - Si Ollama n'est pas disponible : vérifier `ollama serve` et `ollama list`
-- Si le port 8000 est occupé : modifier `scripts/start.sh` et changer le port
+- Si le port 8001 est occupé : modifier `scripts/start-backend.sh` et changer le port
 EOF
 
 # 7. Résumé

@@ -157,7 +157,7 @@ sudo umount /mnt/usb
 3. **Vérifier le bon démarrage**
    ```bash
    sudo systemctl status robert-ia
-   curl http://localhost:8000/health
+   curl http://localhost:8001/health
    ```
 
 4. **(Optionnel) Purger l'historique local** (si mandat = pas de conservation)

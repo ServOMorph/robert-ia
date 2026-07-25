@@ -80,12 +80,14 @@ zéro (pas un compteur par session comme prévu initialement), calculé côté b
 
 ## Phase 5 — Déploiement pilote [EN COURS]
 
-Borne mobile : pilote démarré au Moulin du Sud (Génissac), déplacement possible vers le
-Bistrot de Nérigean plus tard. `ROBERT_CONTEXT` bascule le lieu sans changement de code.
+Borne mobile : c'est le PC Linux lui-même qui est déplacé de lieu en lieu. Il est
+actuellement en démo au Moulin du Sud (Génissac), déplacement possible vers le Bistrot de
+Nérigean plus tard. Aucune installation sur un PC tiers. `ROBERT_CONTEXT` bascule le lieu
+sans changement de code.
 
 - [x] Tester l'écran d'accueil (badge eau + modale "plus d'infos") sur le kiosk en conditions réelles
 - [x] Suggestions de questions cliquables sur l'écran de chat (3 par contexte)
-- [ ] Installation sur le PC de l'association (Moulin du Sud)
+- [x] Mise en place de la borne au Moulin du Sud (déplacement du PC Linux, démo en cours)
 - [ ] Formation animateurs
 - [ ] Visite de suivi J+15 : récupération SQLite + analyse retours
 - [ ] Corrections issues du terrain

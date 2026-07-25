@@ -3,8 +3,15 @@
 
 import subprocess
 import sys
-import os
+import threading
+import time
 from pathlib import Path
+
+
+def relay_output(proc, label):
+    for line in proc.stdout:
+        print(f"[{label}] {line.rstrip()}")
+
 
 def main():
     root = Path(__file__).parent
@@ -19,10 +26,14 @@ def main():
         print(f"❌ Répertoire frontend non trouvé: {frontend_dir}")
         sys.exit(1)
 
+    # Utilise le venv du backend s'il existe, sinon le Python courant
+    venv_python = backend_dir / "venv" / ("Scripts/python.exe" if sys.platform == "win32" else "bin/python")
+    python_exe = str(venv_python) if venv_python.exists() else sys.executable
+
     # Lance le backend
     print("🚀 Démarrage backend (FastAPI)...")
     backend_proc = subprocess.Popen(
-        [sys.executable, "-m", "uvicorn", "main:app", "--reload"],
+        [python_exe, "-m", "uvicorn", "main:app", "--reload"],
         cwd=backend_dir,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
@@ -47,34 +58,32 @@ def main():
     print("   Frontend : http://localhost:5173")
     print("\nAppuie sur Ctrl+C pour arrêter.\n")
 
-    # Affiche la sortie
+    # Relaie la sortie de chaque serveur dans un thread dédié
+    threads = [
+        threading.Thread(target=relay_output, args=(backend_proc, "backend"), daemon=True),
+        threading.Thread(target=relay_output, args=(frontend_proc, "frontend"), daemon=True),
+    ]
+    for thread in threads:
+        thread.start()
+
     try:
         while True:
             if backend_proc.poll() is not None or frontend_proc.poll() is not None:
                 print("\n❌ Un serveur s'est arrêté.")
                 break
-
-            # Lire les lignes disponibles (non-bloquant sur Windows)
-            try:
-                line = backend_proc.stdout.readline()
-                if line:
-                    print(f"[backend] {line.rstrip()}")
-            except:
-                pass
-
-            try:
-                line = frontend_proc.stdout.readline()
-                if line:
-                    print(f"[frontend] {line.rstrip()}")
-            except:
-                pass
+            time.sleep(0.2)
     except KeyboardInterrupt:
         print("\n\n🛑 Arrêt des serveurs...")
-        backend_proc.terminate()
-        frontend_proc.terminate()
-        backend_proc.wait(timeout=5)
-        frontend_proc.wait(timeout=5)
-        print("✅ Serveurs arrêtés.")
+
+    for proc in (backend_proc, frontend_proc):
+        if proc.poll() is None:
+            proc.terminate()
+    for proc in (backend_proc, frontend_proc):
+        try:
+            proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+    print("✅ Serveurs arrêtés.")
 
 if __name__ == "__main__":
     main()

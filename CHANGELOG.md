@@ -1,3 +1,15 @@
+## v1.17 — 2026-07-25
+
+### Corrigé
+- Roadmap/README/signals : la borne mobile Phase 5 est le PC Linux lui-même déplacé de lieu en lieu, pas une installation sur un PC tiers au Moulin du Sud
+- Suggestions de questions cliquables affichées sur une seule ligne (`frontend/src/screens/Chat.css`)
+- `run.py` : relais de sortie backend/frontend via threads (bug de blocage `readline`), arrêt propre des deux process, détection auto du venv backend
+- Port backend en production documenté à 8001 (`README.md`, `docs/PROTOCOLE_EXPORT_DONNEES.md`, `docs/GUIDE_INSTALLATION_AIRGAP.md`, `scripts/setup-airgap.sh`)
+
+### Ajouté
+- `backend/venv/` créé sur Windows avec les dépendances installées (absent jusqu'ici)
+- `.claude/memory.md` : relance du kiosk Chromium sous Wayland
+
 ## v1.16 — 2026-07-25
 
 ### Ajouté

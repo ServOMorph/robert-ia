@@ -3,6 +3,17 @@
 **Date** : 2026-06-18  
 **Status** : ✅ COMPLÉTÉE
 
+> **⚠️ DOCUMENT D'ARCHIVE — ne pas utiliser comme référence.**
+> Ce compte-rendu décrit l'état du projet au 2026-06-18 et n'est plus maintenu.
+> Plusieurs éléments ont changé depuis :
+> - port backend : `8000` → `8001` en production
+> - navigateur kiosk : Firefox → Chromium
+> - modèle Ollama : `gemma3:1b` → `gemma3:4b`
+> - lieu du pilote : borne mobile, actuellement au Moulin du Sud (Génissac)
+>
+> Références à jour : `docs/GUIDE_INSTALLATION_AIRGAP.md`, `scripts/start-backend.sh`,
+> `scripts/start-kiosk.sh`, `roadmap_robert-ia.md`.
+
 ---
 
 ## Objectif de la Phase 3
