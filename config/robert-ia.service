@@ -16,6 +16,7 @@ StandardError=journal
 SyslogIdentifier=robert-ia
 Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 Environment="HOME=/home/robert-ia"
+Environment="ROBERT_CONTEXT=invariable"
 CPUQuota=80%
 MemoryLimit=3G
 TimeoutStartSec=120

@@ -14,7 +14,7 @@ Déployer une IA locale conversationnelle dans des espaces associatifs (air-gap,
 - Backup code : GitHub public MIT
 
 ## État actuel (réécrit intégralement à chaque /close)
-Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Mini RAG déployé et validé. Bandeau eau économisée (total cumulé) validé visuellement en production. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD) sur hostname mDNS `robert-ia-H81M-S2PV.local`.
+Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à démarrer. Mini RAG remplacé par un système multi-contextes (`backend/contexts/*.txt` + `ROBERT_CONTEXT`) : `invariable` (Nérigean) et `moulin_du_sud` (Génissac) disponibles. Bandeau eau économisée (total cumulé) validé visuellement en production. Accès SSH root désactivé : connexion via user `robert-ia` (sudo NOPASSWD) sur hostname mDNS `robert-ia-H81M-S2PV.local`. **Attention : prod actuellement sur `ROBERT_CONTEXT=moulin_du_sud`, pas `invariable`.**
 
 ## Décisions structurantes (append only — 10 entrées max, archiver au-delà)
 - 2026-06-21 : Feature inactivité — modale après 10 min sans message, countdown 30s, retour accueil automatique
@@ -22,8 +22,8 @@ Phases 1–4 complètes. Phase 5 "Déploiement pilote" (Bistrot de Nérigean) à
 - 2026-06-21 : Frontend déployé dans /opt/robert-ia/app/frontend/dist/ (pas /opt/robert-ia/frontend/dist/)
 - 2026-06-22 : Claude Code prend le contrôle SSH du Linux automatiquement (instruction dans .claude/CLAUDE.md)
 - 2026-06-22 : Protocole Windows→Linux — toute modification fichier applicatif faite sur Windows d'abord, puis déployée via scp (instruction dans .claude/CLAUDE.md)
-- 2026-06-22 : Mini RAG — knowledge.txt injecté dans system prompt au démarrage, 3 niveaux de réponse (culture générale / association / refus météo+internet)
 - 2026-07-23 : Réseau Windows↔Linux migré du partage ICS (192.168.137.x) vers switch/Freebox (192.168.1.x) — SSH/scp utilisent le hostname mDNS `robert-ia-H81M-S2PV.local` plutôt qu'une IP en dur
 - 2026-07-23 : P2b finalisé — total cumulé (jamais reset) plutôt que compteur par session : `GET /api/water-stats` compte les messages user en base, affiché sur Welcome + bandeau Chat (style aligné sur le disclaimer)
 - 2026-07-23 : Fix `Cache-Control: no-cache` sur index.html — évite que Chromium reste figé sur un ancien build après déploiement (bug découvert lors du debug kiosk)
 - 2026-07-25 : P3 finalisé — `PermitRootLogin no`, user `robert-ia` + sudo NOPASSWD:ALL pour préserver le contrôle SSH automatique de Claude Code (commandes CLAUDE.md mises à jour)
+- 2026-07-25 : Mini RAG remplacé par système multi-contextes — `backend/contexts/<nom>.txt` (champs nom/lieu/type + connaissance), sélection via `ROBERT_CONTEXT`, gabarit de prompt générique dans `prompt.py`

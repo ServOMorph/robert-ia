@@ -1,4 +1,6 @@
-# Connaissance de Robert — Espace L'Invariable
+nom: Espace L'Invariable
+lieu: Nérigean
+type: bistrot culturel et sociétal
 
 ## Identité du lieu
 - Nom : Espace L'Invariable — Bistrot Culturel Sociétal

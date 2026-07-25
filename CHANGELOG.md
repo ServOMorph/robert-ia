@@ -1,3 +1,18 @@
+## v1.12 — 2026-07-25
+
+### Ajouté
+- `backend/contexts/invariable.txt`, `backend/contexts/moulin_du_sud.txt` : système multi-contextes (identité de lieu + connaissance par fichier), sélection via `ROBERT_CONTEXT`
+
+### Modifié
+- `backend/prompt.py` : gabarit de system prompt généralisé (nom/lieu/type paramétrés au lieu de codés en dur), fix grammatical ("chez" au lieu de "à" pour éviter la contraction incorrecte avec les articles)
+- `backend/main.py` : chargement du contexte actif via `ROBERT_CONTEXT` (défaut `invariable`)
+- `config/robert-ia.service` : variable `ROBERT_CONTEXT` ajoutée
+- `README.md` : section RAG/architecture mise à jour pour refléter le multi-contextes
+- Déployé et testé end-to-end sur Linux (production actuellement sur `moulin_du_sud`)
+
+### Supprimé
+- `backend/knowledge.txt` : remplacé par `backend/contexts/invariable.txt`
+
 ## v1.11 — 2026-07-25
 
 ### Modifié

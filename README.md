@@ -26,13 +26,13 @@ flowchart TD
         direction TB
         Chromium["Chromium Kiosk (Interface React)"] <-->|HTTP / NDJSON Stream| FastAPI["Backend FastAPI (Python)"]
         FastAPI <-->|Lecture & Écriture| SQLite[("Base SQLite (Historique)")]
-        FastAPI <-->|Système Prompt & RAG| Knowledge["Base de connaissances (knowledge.txt)"]
+        FastAPI <-->|Système Prompt & RAG| Knowledge["Contexte actif (backend/contexts/*.txt)"]
         FastAPI <-->|Requêtes LLM locales (port 11434)| Ollama["Ollama (Modèle gemma3:4b)"]
     end
 ```
 
 ### Principes clés :
-1. **RAG Local de niveau 2** : Le serveur backend FastAPI charge au démarrage une base de connaissances textuelle locale (`knowledge.txt`, contenant les détails du lieu comme le Bistrot de Nérigean / L'Invariable). Ce contexte est injecté dynamiquement dans le System Prompt.
+1. **RAG Local multi-contextes** : Le serveur backend FastAPI charge au démarrage un fichier de contexte (`backend/contexts/<nom>.txt`, identité du lieu + connaissance), sélectionné via la variable d'environnement `ROBERT_CONTEXT` (ex : `invariable` pour le Bistrot de Nérigean, `moulin_du_sud` pour Génissac). Ce contexte est injecté dynamiquement dans le System Prompt. Bascule = éditer `ROBERT_CONTEXT` puis redémarrer le service.
 2. **System Prompt à 3 niveaux** :
    * **Niveau 1** : Culture générale (Gemma 3).
    * **Niveau 2** : Réponses spécifiques basées sur le contexte local de l'association.

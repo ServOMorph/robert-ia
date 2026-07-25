@@ -11,16 +11,22 @@ import httpx
 from database import init_db, save_message, get_head, get_history, count_user_messages
 from prompt import build_system_prompt
 
-KNOWLEDGE_PATH = os.path.join(os.path.dirname(__file__), "knowledge.txt")
+CONTEXTS_DIR = os.path.join(os.path.dirname(__file__), "contexts")
+CONTEXT_NAME = os.environ.get("ROBERT_CONTEXT", "invariable")
 
-def load_knowledge() -> str:
-    try:
-        with open(KNOWLEDGE_PATH, encoding="utf-8") as f:
-            return f.read()
-    except FileNotFoundError:
-        return "(aucune connaissance spécifique chargée)"
+def load_context(name: str):
+    path = os.path.join(CONTEXTS_DIR, f"{name}.txt")
+    with open(path, encoding="utf-8") as f:
+        content = f.read()
+    header, _, body = content.partition("\n\n")
+    fields = dict(line.split(":", 1) for line in header.splitlines())
+    fields = {key.strip(): value.strip() for key, value in fields.items()}
+    return fields, body.strip()
 
-SYSTEM_PROMPT = build_system_prompt(load_knowledge())
+CONTEXT_FIELDS, CONTEXT_KNOWLEDGE = load_context(CONTEXT_NAME)
+SYSTEM_PROMPT = build_system_prompt(
+    CONTEXT_FIELDS["nom"], CONTEXT_FIELDS["lieu"], CONTEXT_FIELDS["type"], CONTEXT_KNOWLEDGE
+)
 
 FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 
