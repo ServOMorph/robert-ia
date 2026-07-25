@@ -1,4 +1,4 @@
-# Signals — robert-ia   (MAJ 2026-07-25 — session 25)
+# Signals — robert-ia   (MAJ 2026-07-25 — session 26)
 
 ## Actions ouvertes
 - [P1] Phase 5 — Formation animateurs + visite de suivi J+15 (borne en démo au Moulin du Sud)
@@ -7,6 +7,9 @@
 - [P2] TESTER protocole récupération + analyse conversations (end-to-end)
   fait quand: test réalisé sur PC Windows avec un vrai robert.db exporté depuis Linux via USB — CSV généré et lisible dans Excel
   réf: scripts/analyse_conversations.py, docs/GUIDE_RECUPERATION_ANALYSE.md, docs/PROTOCOLE_ANALYSE_CONVERSATIONS.md
+- [P2] Source unique de vérité pour la config (`ROBERT_CONTEXT`, port, modèle) — aujourd'hui dupliquée entre l'unité systemd du Linux, `scripts/start-backend.sh`, `backend/main.py` et `run.py:18-21`. Risque : au prochain déplacement de la borne, `run.py` gardera silencieusement l'ancien contexte et ne reproduira plus la prod. Piste : fichier `robert.env` à la racine, lu par `EnvironmentFile=` (systemd), sourcé par `start-backend.sh`, parsé par `run.py`. À traiter AVANT le prochain déplacement de la borne (touche le démarrage de la prod : vérifier le redémarrage du service).
+  fait quand: une seule déclaration de ROBERT_CONTEXT/port/modèle dans le dépôt, borne redémarrée et vérifiée après bascule
+  réf: run.py:16-21, scripts/start-backend.sh, backend/main.py:15+43, /etc/systemd/system/robert-ia.service
 - [P3] Corriger `/api/health` dans docs/GUIDE_RECUPERATION_ANALYSE.md:66 — cette route n'existe pas côté backend (tombe sur le catch-all frontend), le bon endpoint est `/health`
   fait quand: doc corrigée
   réf: docs/GUIDE_RECUPERATION_ANALYSE.md, backend/main.py
@@ -26,32 +29,26 @@
 - Version app affichée dynamiquement sur l'écran d'accueil, lue depuis `frontend/package.json` via `define: __APP_VERSION__` dans `vite.config.js` — actuellement `1.1.0`
 - Suggestions de questions cliquables sur l'écran de chat : 3 par contexte (`backend/contexts/<nom>.suggestions.txt`), affichées sur une seule ligne, disparaissent après le premier message envoyé
 - Suite de tests frontend intégralement verte (20/20), backend vert sauf un échec préexistant sans rapport (`test_database.py::test_get_history_returns_ordered_messages`)
-- Port backend : dev = 8000 (`python -m uvicorn main:app --reload` via `run.py`), prod = 8001 (`scripts/start-backend.sh`) — doc désormais cohérente sur ce point
+- Port backend unifié à 8001 partout (dev et prod) — `python run.py` réplique la config prod (port 8001, contexte moulin_du_sud, frontend statique servi par FastAPI) ; `python run.py --dev` restaure reload + Vite (proxy `/api` vers 8001)
 - `backend/venv/` créé sur Windows (absent jusqu'ici, uvicorn manquant) — `run.py` détecte et utilise automatiquement ce venv s'il existe
 - `docs/PHASE3_SUMMARY.md` déplacé vers `docs/archive/` (bandeau d'avertissement, contenu obsolète : port 8000, Firefox, gemma3:1b)
 
-## Dernière session (2026-07-25 — session 25)
+## Dernière session (2026-07-25 — session 26)
 
 ### Décisions prises
-- Correction : la borne mobile Phase 5 est le PC Linux déplacé physiquement, pas une installation sur un PC tiers au Moulin du Sud
-- PHASE3_SUMMARY.md archivé (bandeau d'avertissement) plutôt que réécrit — évite de falsifier l'historique
+- `run.py` réplique par défaut la configuration prod du PC Linux (port 8001, contexte moulin_du_sud, frontend statique) plutôt que le mode dev — `--dev` restaure reload + Vite
 
 ### Livrables produits ou modifiés
-- `roadmap_robert-ia.md`, `_contexte/contexte.md`, `README.md` : correction borne mobile
-- `frontend/src/screens/Chat.css` : suggestions cliquables en ligne (row), police réduite — buildé et déployé sur Linux
-- `.claude/memory.md` : entrée relance kiosk sous Wayland
-- `run.py` : relais de sortie backend/frontend via threads (fix blocage `readline`), arrêt propre des deux process, détection auto du venv backend
-- `backend/venv/` : créé, dépendances installées
-- `README.md`, `docs/PROTOCOLE_EXPORT_DONNEES.md`, `docs/GUIDE_INSTALLATION_AIRGAP.md`, `scripts/setup-airgap.sh` : corrections port 8000→8001 en production
-- `docs/PHASE3_SUMMARY.md` → `docs/archive/PHASE3_SUMMARY.md`
-- Linux : assets orphelins supprimés, kiosk relancé et vérifié stable
+- `run.py` : réécrit — mode prod par défaut, `--dev` optionnel, vérification Ollama/modèle au démarrage, vérification que `frontend/dist` existe
+- `frontend/vite.config.js` : proxy `/api` corrigé de 8000 vers 8001 (bug introduit par le changement de port, détecté par un test réel en mode `--dev`)
+- `README.md` : instructions backend/`run.py` mises à jour (port unique 8001)
 
 ### Hypothèses validées / invalidées
-- VALIDE : modèle LLM identique Windows/Linux/prod = `gemma3:4b`
-- INVALIDE : le pilote nécessitait une installation sur le PC de l'association -> pivot : c'est le PC Linux qui se déplace
+- VALIDE : mode `--dev` fonctionnel après correction du proxy (testé en réel : suggestions Moulin du Sud reçues via Vite sur le port 5173)
+- INVALIDE : le port 8000 pouvait rester utilisé en dev sans casser la cohérence -> unifié à 8001 partout
 
 ### Prochaine étape exacte
-Formation animateurs au Moulin du Sud, puis visite de suivi J+15 (récupération SQLite + analyse).
+Avant le prochain déplacement de la borne : traiter la dette de config dupliquée (action P2 ci-dessus) pour éviter que `run.py` diverge silencieusement de la prod.
 
 ### Question bloquante pour la session suivante
 Aucune

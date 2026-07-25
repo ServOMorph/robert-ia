@@ -1,3 +1,12 @@
+## v1.18 — 2026-07-25
+
+### Modifié
+- `run.py` réécrit : réplique par défaut la configuration de production (port 8001, contexte `moulin_du_sud`, frontend statique servi par FastAPI) ; `--dev` restaure le rechargement automatique et le serveur Vite ; vérifie Ollama/le modèle et la présence de `frontend/dist` au démarrage
+
+### Corrigé
+- `frontend/vite.config.js` : proxy `/api` corrigé de 8000 vers 8001 (port dev unifié avec le port prod)
+- `README.md` : instructions de lancement backend/`run.py` alignées sur le port unique 8001
+
 ## v1.17 — 2026-07-25
 
 ### Corrigé

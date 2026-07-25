@@ -68,8 +68,12 @@ pip install -r requirements.txt
 # Lancer le serveur backend
 python -m uvicorn main:app --reload
 ```
-En développement, le backend FastAPI écoute sur le port `8000`.
-En production (PC air-gap), il est lancé par `scripts/start-backend.sh` sur le port `8001`.
+Le backend FastAPI écoute sur le port `8001`, en développement comme en production
+(où il est lancé par `scripts/start-backend.sh`).
+
+Alternative : depuis la racine, `python run.py` démarre l'application dans la configuration
+exacte du PC de production (port `8001`, contexte `moulin_du_sud`, frontend statique servi
+par FastAPI). Ajouter `--dev` pour le rechargement automatique et le serveur Vite.
 
 #### 2. Lancement du Frontend
 ```bash
